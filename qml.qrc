@@ -1,0 +1,9 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>qtquickcontrols2.conf</file>
+        <file>Tache.qml</file>
+        <file>TacheForm.ui.qml</file>
+        <file>tache.js</file>
+    </qresource>
+</RCC>
