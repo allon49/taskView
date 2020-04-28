@@ -11,7 +11,6 @@ ApplicationWindow {
     height: 480
 
     function app()
-
     {
         return   applicationWindow;
     }
@@ -37,7 +36,7 @@ ApplicationWindow {
                     color: "yellow"
 
                     property int taskColumnRectangleIndex: index
-                    property alias model : listView.model
+                    //property alias model : listView.model
 
                     ListView {
                         id: listView
@@ -72,12 +71,11 @@ ApplicationWindow {
 
                                     var tmp = Activity.tasks
                                     tmp[taskColumnRectangleIndex].splice(index,0,Activity.tasks[drag.source.dragRectTaskColumnIndex][drag.source.dragRectIndex])
+                                    tmp[drag.source.dragRectTaskColumnIndex].splice(drag.source.dragRectIndex,1)
                                     Activity.tasks = tmp
-                                    console.log(Activity.tasks)
 
+                                    taskRepeater.model = Activity.tasks
 
-
-                                //    handleDrop(drag)
                                 }
                                 onEntered: dragRect.color = "red"
                                 onExited: dragRect.color = "yellow"
