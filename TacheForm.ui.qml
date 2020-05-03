@@ -2,37 +2,41 @@ import QtQuick 2.4
 
 Item {
     id: element
-    width: 400
-    height: 400
+    width: 200
+    height: 220
     property alias taskTextEdit: taskTextEdit
 
     Rectangle {
         id: taskRectangle
-        x: 40
-        y: 40
         width: 200
         height: 200
-        color: "#ffffff"
+        color: "#000080"
+        anchors.top: parent.top
+        anchors.topMargin: 20
+        anchors.left: parent.left
+        anchors.leftMargin: 0
         border.color: "#f2e6e6"
         border.width: 1
 
         TextInput {
             id: taskTitleTextInput
+            x: 0
+            width: parent.width
             height: 20
             text: qsTr("Title")
+            anchors.leftMargin: 10
+            transformOrigin: Item.Center
             anchors.rightMargin: 10
             anchors.right: parent.right
             anchors.left: parent.left
-            anchors.leftMargin: 10
             anchors.top: parent.top
-            anchors.topMargin: 15
             cursorVisible: true
             font.pixelSize: 12
         }
 
         TextEdit {
             id: taskTextEdit
-            x: 120
+            width: parent.width
             text: qsTr("Enter your text")
             anchors.top: taskTitleTextInput.bottom
             anchors.bottom: parent.bottom
@@ -48,7 +52,7 @@ Item {
             x: 300
             y: -40
             width: 90
-            height: 30
+            height: 20
             color: "#e75858"
             radius: 3
             border.width: 5
@@ -90,6 +94,7 @@ Item {
             MouseArea {
                 id: optionsRectangle
                 width: 30
+                height: 20
                 anchors.left: removeRectangle.right
                 anchors.bottom: parent.bottom
                 anchors.top: parent.top
@@ -110,5 +115,6 @@ Item {
 Designer {
     D{i:2;anchors_height:200;anchors_x:0;anchors_y:15}D{i:3;anchors_height:20;anchors_width:80;anchors_x:0;anchors_y:0}
 D{i:5;anchors_height:100}D{i:7;anchors_height:100;anchors_x:0;anchors_y:0}D{i:9;anchors_height:100}
+D{i:1;anchors_x:0;anchors_y:20}
 }
 ##^##*/

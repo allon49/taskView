@@ -5,5 +5,6 @@
         <file>Tache.qml</file>
         <file>TacheForm.ui.qml</file>
         <file>tache.js</file>
+        <file>dummydata/context/TaskDisplay.qml</file>
     </qresource>
 </RCC>
