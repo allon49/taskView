@@ -35,8 +35,7 @@ Item {
             console.log("task column index: " + taskColumnIndex)
             console.log("task index: " + index)
 
-            //Activity.tasks[taskColumnIndex][index] = "test"
-Activity.tasks[0][0] = "test"
+            Activity.tasks[taskColumnIndex][index] = "test"
 
             taskRepeater.model = Activity.tasks
 
