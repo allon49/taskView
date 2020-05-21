@@ -10,16 +10,23 @@ ApplicationWindow {
     visible: true
     width: 1000
     height: 1000
+    
+    Component.onCompleted: Activity.startUp();
+    
+    property string tempTaskValue : ""
 
 
-    property int taskWidth: 200
-    property int taskHeight: 200
+    property int taskWidth: 250
+    property int taskHeight: 100
 
     function app()
     {
         return   applicationWindow;
     }
-    property alias repeater : taskRepeater
+
+    property alias taskRepeater : taskRepeater
+
+
     Rectangle {
         id: root
 
@@ -27,13 +34,11 @@ ApplicationWindow {
         height: 1000
 
         Row {
-
+            id: tasksRow
             spacing: 10
 
             Repeater {
                 id: taskRepeater
-
-
 
                 model: Activity.tasks
 
@@ -65,137 +70,39 @@ ApplicationWindow {
                         }
                     }
 
-
                     ListView {
                         id: tasksListView
 
                         anchors.top: headerRectangle.bottom
                         anchors.left: parent.left
 
+                        spacing: 20
+
                         width: parent.width
-                        height: Activity.tasks[taskColumnRectangleIndex].length * 50 < 500 ? Activity.tasks[taskColumnRectangleIndex].length * 50 : 500
+                        //height: Activity.tasks[taskColumnRectangleIndex].length * 50 < 500 ? Activity.tasks[taskColumnRectangleIndex].length * 50 : 500
 
-
-
-
+                        height: 800
 
                         property int dragItemIndex: -1
 
                         model: modelData
 
-                        delegate: Item {
-                            id: delegateItem
-
-                            width: taskWidth
-                            height: taskHeight
-
-                            DropArea {
-                                id: dropArea
-
-                                property bool entered: false
-
-                                anchors.fill: parent
-                                onDropped: {
-                                    print(index)
-                                    console.log(drag.source)
-                                    print("taskRepeater: " + taskColumnRectangleIndex)
-                                    print("drag.source.dragRectIndex: " + drag.source.dragRectIndex)
-                                    print("drag.source.dragRectTaskColumnIndex: " + drag.source.dragRectTaskColumnIndex)
-
-                                    var tmp = Activity.tasks
-                                    tmp[taskColumnRectangleIndex].splice(index,0,Activity.tasks[drag.source.dragRectTaskColumnIndex][drag.source.dragRectIndex])
-                                    tmp[drag.source.dragRectTaskColumnIndex].splice(drag.source.dragRectIndex,1)
-                                    Activity.tasks = tmp
-
-                                    taskRepeater.model = Activity.tasks
-                                }
-
-
-                                onEntered: {
-                                   dragRect.color = "red"
-                                    if (drag.source.dragRectTaskColumnIndex !== taskColumnRectangleIndex) {
-                                        if (index !== 0) {
-                                            delegateItem.height = 100
-                                        }
-                                    }
+                        delegate: taskComponent
+                    }
 
 
 
-                              //     if (drag.source.dragRectIndex !== index || drag.source.dragRectTaskColumnIndex !== taskColumnRectangleIndex) {
-                               //         delegateItem.height = 100
-                               //    }
-                                }
+                    Component {
+                        id: taskComponent
 
-                                onExited: {
-                                    delegateItem.height = 50
-                                    dragRect.color = "salmon"
-
-                                }
-                            }
-
-                            //Rectangle {
-                            TacheForm {
-                                id: dragRect
-
-                                property alias dragRect: dragRect
-
-                                property int dragRectIndex
-                                property int dragRectTaskColumnIndex
-
-                                dragRectIndex: index
-                                dragRectTaskColumnIndex: taskColumnRectangle.taskColumnRectangleIndex
-
-                                //width: root.width / 3
-                                //height: 50
-                         //       color: "salmon"
-                         //       border.color: Qt.darker(color)
-
-                                Text {
-                                    anchors.centerIn: parent
-                                    text: modelData
-                                }
-
-                                MouseArea {
-                                    id: mouseArea
-                                    anchors.fill: parent
-                                    drag.target: dragRect
-
-                                    drag.onActiveChanged: {
-                                        if (mouseArea.drag.active) {
-                                            print("index:", index)
-                                            tasksListView.dragItemIndex = index
-                                        }
-                                        dragRect.Drag.drop()
-                                    }
-                                }
-
-                                states: [
-                                State {
-                                    when: dragRect.Drag.active
-                                    ParentChange {
-                                        target: dragRect
-                                        parent: root
-                                    }
-
-                                    AnchorChanges {
-                                        target: dragRect
-                                        anchors.horizontalCenter: undefined
-                                        anchors.verticalCenter: undefined
-                                    }
-                                }
-                                ]
-
-                                Drag.active: mouseArea.drag.active
-                                Drag.hotSpot.x: dragRect.width / 2
-                                Drag.hotSpot.y: dragRect.height / 2
-                            }
+                        Task {
+                            taskColumnIndex: taskColumnRectangleIndex
                         }
                     }
 
+
                     Rectangle {
                         id: footerRectangle
-
-
 
                         anchors.top: tasksListView.bottom
                         anchors.left: parent.left
@@ -221,16 +128,29 @@ ApplicationWindow {
 
                                     console.log("rr")
 
-
                                     taskRepeater.model = Activity.tasks
-
                                 }
                             }
-
                         }
                     }
                 }
             }
+        }
+
+        TaskMobile {
+            id: movingTask
+
+            z: 10
+
+            anchors.top: tasksRow.top
+            anchors.left: tasksRow.right
+
+            width: taskWidth
+            height: taskHeight
+
+            color: "blue"
+            //text: "moving task"
+
         }
     }
 

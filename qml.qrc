@@ -2,9 +2,10 @@
     <qresource prefix="/">
         <file>main.qml</file>
         <file>qtquickcontrols2.conf</file>
+        <file>tache.js</file>
         <file>Tache.qml</file>
         <file>TacheForm.ui.qml</file>
-        <file>tache.js</file>
-        <file>dummydata/context/TaskDisplay.qml</file>
+        <file>Task.qml</file>
+        <file>TaskMobile.qml</file>
     </qresource>
 </RCC>
