@@ -39,6 +39,9 @@ ApplicationWindow {
             Repeater {
                 id: taskRepeater
 
+                property bool taskRepeaterIsBeingRendered: false
+                Component.onCompleted: { taskRepeaterIsBeingRendered = false}
+
                 model: Activity.tasks
 
                 Rectangle {

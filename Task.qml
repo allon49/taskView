@@ -19,6 +19,7 @@ Item {
     height: taskHeight
 
 
+
     DropArea {
         id: dragTarget
 
@@ -27,35 +28,40 @@ Item {
         width: parent.width
         height: parent.height
 
-        onExited: {
-            dropRectangle.color = defaultColor
-            if (Activity.tasks[taskColumnIndex][index] === "inserted task") {
-                Activity.tasks[taskColumnIndex].splice(index, 1)
-                taskRepeater.model = Activity.tasks
-            }
+//        onExited: {
+//            dropRectangle.color = defaultColor
+//            if (Activity.tasks[taskColumnIndex][index] === "inserted task") {
+//                Activity.tasks[taskColumnIndex].splice(index, 1)
+//                taskRepeater.model = Activity.tasks
+//            }
 
-            console.log("exited")
-        }
+//            console.log("exited")
+//        }
 
         onEntered: {
 
+            console.log("taskRepeater.taskRepeaterIsBeingRendered: " + taskRepeater.taskRepeaterIsBeingRendered)
 
+            if (!taskRepeater.taskRepeaterIsBeingRendered)
 
-            dropRectangle.color = hoveredColor
-            dropRectangle.opacity = 0.1
-            console.log("entered")
+            {
 
-            console.log("task column index: " + taskColumnIndex)
-            console.log("task index: " + index)
+                dropRectangle.color = hoveredColor
+                dropRectangle.opacity = 0.1
+                console.log("entered")
 
-            if (Activity.tasks[taskColumnIndex][index] !== "inserted task") {
-                Activity.tasks[taskColumnIndex].splice(index, 0, "inserted task")
-                console.log(Activity.tasks[0][0])
-                taskRepeater.model = Activity.tasks
+                console.log("task column index: " + taskColumnIndex)
+                console.log("task index: " + index)
+
+                if (Activity.tasks[taskColumnIndex][index] !== "inserted task") {
+                    Activity.tasks[taskColumnIndex].splice(index, 0, "inserted task")
+                    console.log(Activity.tasks[0][0])
+                    taskRepeater.taskRepeaterIsBeingRendered = true
+                    taskRepeater.model = Activity.tasks
+
+                }
 
             }
-
-
 
 
 //            if (drag.source.dragRectTaskColumnIndex !== taskColumnRectangleIndex) {
