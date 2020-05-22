@@ -25,21 +25,29 @@ Item {
 
         onExited: {
             dropRectangle.color = defaultColor
+            if (Activity.tasks[taskColumnIndex][index] === "inserted task") {
+                Activity.tasks[taskColumnIndex].splice(index, 1)
+                taskRepeater.model = Activity.tasks
+            }
+
             console.log("exited")
         }
 
         onEntered: {
             dropRectangle.color = hoveredColor
+            dropRectangle.opacity = 0.1
             console.log("entered")
 
             console.log("task column index: " + taskColumnIndex)
             console.log("task index: " + index)
 
-            Activity.tasks[taskColumnIndex][index] = "test"
+            if (Activity.tasks[taskColumnIndex][index] !== "inserted task") {
+                Activity.tasks[taskColumnIndex].splice(index, 0, "inserted task")
+                taskRepeater.model = Activity.tasks
+                console.log("Activity.tasks: " + Activity.tasks)
+            }
 
-            taskRepeater.model = Activity.tasks
 
-            console.log("Activity.tasks: " + Activity.tasks)
 
 
 //            if (drag.source.dragRectTaskColumnIndex !== taskColumnRectangleIndex) {
@@ -52,6 +60,9 @@ Item {
         onDropped: {
             dropRectangle.color = "black"
             console.log("dropped")
+
+            Activity.tasks[taskColumnIndex].splice(index, 0, "inserted task")
+            taskRepeater.model = Activity.tasks
 
         }
 
@@ -70,20 +81,8 @@ Item {
                 anchors.fill: parent
 
                 text: modelData
-
             }
-
-//            states: [
-//                State {
-//                    when: dragTarget.containsDrag
-//                    PropertyChanges {
-//                        target: dropRectangle
-//                        color: hoveredColor
-//                    }
-//                }
-//            ]
         }
-
 
 
     //                                anchors.fill: parent
