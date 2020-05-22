@@ -11,7 +11,6 @@ ApplicationWindow {
     width: 1000
     height: 1000
     
-    Component.onCompleted: Activity.startUp();
     
     property string tempTaskValue : ""
 
@@ -88,6 +87,7 @@ ApplicationWindow {
                         model: modelData
 
                         delegate: taskComponent
+
                     }
 
 

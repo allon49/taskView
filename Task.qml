@@ -12,8 +12,12 @@ Item {
     property string hoveredColor : "grey"
     property int taskColumnIndex
 
+
+
+
     width: taskWidth
     height: taskHeight
+
 
     DropArea {
         id: dragTarget
@@ -34,6 +38,9 @@ Item {
         }
 
         onEntered: {
+
+
+
             dropRectangle.color = hoveredColor
             dropRectangle.opacity = 0.1
             console.log("entered")
@@ -43,8 +50,9 @@ Item {
 
             if (Activity.tasks[taskColumnIndex][index] !== "inserted task") {
                 Activity.tasks[taskColumnIndex].splice(index, 0, "inserted task")
+                console.log(Activity.tasks[0][0])
                 taskRepeater.model = Activity.tasks
-                console.log("Activity.tasks: " + Activity.tasks)
+
             }
 
 
