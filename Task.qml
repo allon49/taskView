@@ -28,15 +28,15 @@ Item {
         width: parent.width
         height: parent.height
 
-//        onExited: {
-//            dropRectangle.color = defaultColor
-//            if (Activity.tasks[taskColumnIndex][index] === "inserted task") {
-//                Activity.tasks[taskColumnIndex].splice(index, 1)
-//                taskRepeater.model = Activity.tasks
-//            }
+        onExited: {
+            dropRectangle.color = defaultColor
+            if (Activity.tasks[taskColumnIndex][index] === "inserted task") {
+                Activity.tasks[taskColumnIndex].splice(index, 1)
+                taskRepeater.model = Activity.tasks
+            }
 
-//            console.log("exited")
-//        }
+            console.log("exited")
+        }
 
         onEntered: {
 

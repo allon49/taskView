@@ -47,9 +47,9 @@ ApplicationWindow {
                 Rectangle {
                     id: taskColumnRectangle
 
-                    Component.onCompleted: { taskRepeater.taskRepeaterIsBeingRendered = false
-
-                    console.log("set taskRepeaterIsBeingRendered = false")
+                    Component.onCompleted: {
+                        taskRepeater.taskRepeaterIsBeingRendered = false
+                        console.log("set taskRepeaterIsBeingRendered = false")
                     }
 
                     width: taskWidth
