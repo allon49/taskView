@@ -40,12 +40,17 @@ ApplicationWindow {
                 id: taskRepeater
 
                 property bool taskRepeaterIsBeingRendered: false
-                Component.onCompleted: { taskRepeaterIsBeingRendered = false}
+
 
                 model: Activity.tasks
 
                 Rectangle {
                     id: taskColumnRectangle
+
+                    Component.onCompleted: { taskRepeater.taskRepeaterIsBeingRendered = false
+
+                    console.log("set taskRepeaterIsBeingRendered = false")
+                    }
 
                     width: taskWidth
                     height: 1000
