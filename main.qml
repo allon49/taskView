@@ -32,6 +32,7 @@ ApplicationWindow {
         width: taskWidth * 3
         height: 1000
 
+        //tasksRow and its repeater create n tasks columns, n being the number of elements (level 1) in Activity.tasks array
         Row {
             id: tasksRow
             spacing: 10
@@ -44,6 +45,7 @@ ApplicationWindow {
 
                 model: Activity.tasks
 
+                // taskColumnRectangle includes tasks header, n tasks and a footer button to add additional tasks
                 Rectangle {
                     id: taskColumnRectangle
 
@@ -77,6 +79,7 @@ ApplicationWindow {
                         }
                     }
 
+                    //listView displaying all the tasks contained in each Activity.tasks array level
                     ListView {
                         id: tasksListView
 
@@ -99,7 +102,7 @@ ApplicationWindow {
                     }
 
 
-
+                    //at the moment a simple DropArea linked to a rectangle but will be replaced by Tache.qml in the future to be able to contain task informations and goals
                     Component {
                         id: taskComponent
 
@@ -108,7 +111,7 @@ ApplicationWindow {
                         }
                     }
 
-
+                    //footer with the + caption
                     Rectangle {
                         id: footerRectangle
 
@@ -145,6 +148,12 @@ ApplicationWindow {
             }
         }
 
+        // movingTask is a temporary task that is movable. It is used to try the concept.
+        // the Task elements contained in the ListView are at the moment a DropArea that interacts with movingTask
+        // movingTask is a mousearea linked to a rectangle.
+        // When movingTask enters Task, an supplementary task (a value in the array) is added at the index of the task entered.
+        // When exiting the task, this supplementary task is removed.
+        // If movingTask is dropped on any of the Task element a supplementary task is definitly added.
         TaskMobile {
             id: movingTask
 
@@ -156,14 +165,6 @@ ApplicationWindow {
             width: taskWidth
             height: taskHeight
 
-            color: "blue"
-            //text: "moving task"
-
         }
-    }
-
-    function handleDrop(drag)
-    {
-        repeater.itemAt(drag.source.dragRectTaskColumnIndex).model = []
     }
 }
