@@ -23,7 +23,21 @@ ApplicationWindow {
         return   applicationWindow;
     }
 
-    property alias taskRepeater : taskRepeater
+
+
+    // Add here the QML items you need to access in javascript
+    QtObject {
+        id: items
+        property alias taskRepeater : taskRepeater
+        property alias tasksModel : tasksModel
+        property alias root : root
+    }
+
+
+    Component.onCompleted: {
+        Activity.start(items)
+        Activity.init()
+    }
 
 
     Rectangle {
@@ -31,6 +45,11 @@ ApplicationWindow {
 
         width: taskWidth * 3
         height: 1000
+
+        ListModel {
+            id: tasksModel
+        }
+
 
         //tasksRow and its repeater create n tasks columns, n being the number of elements (level 1) in Activity.tasks array
         Row {
@@ -43,7 +62,7 @@ ApplicationWindow {
                 property bool taskRepeaterIsBeingRendered: false
 
 
-                model: Activity.tasks
+                model: tasksModel
 
                 // taskColumnRectangle includes tasks header, n tasks and a footer button to add additional tasks
                 Rectangle {
@@ -79,6 +98,8 @@ ApplicationWindow {
                         }
                     }
 
+
+
                     //listView displaying all the tasks contained in each Activity.tasks array level
                     ListView {
                         id: tasksListView
@@ -95,9 +116,11 @@ ApplicationWindow {
 
                         property int dragItemIndex: -1
 
-                        model: modelData
+                        model: modelData.tasks
 
                         delegate: taskComponent
+
+
 
                     }
 
@@ -107,6 +130,7 @@ ApplicationWindow {
                         id: taskComponent
 
                         Task {
+
                             taskColumnIndex: taskColumnRectangleIndex
                         }
                     }
@@ -139,7 +163,7 @@ ApplicationWindow {
 
                                     console.log("rr")
 
-                                    taskRepeater.model = Activity.tasks
+                                    //taskRepeater.model = Activity.tasks
                                 }
                             }
                         }
