@@ -116,12 +116,9 @@ ApplicationWindow {
 
                         property int dragItemIndex: -1
 
-                        model: modelData.tasks
+                        model: modelData
 
                         delegate: taskComponent
-
-
-
                     }
 
 
