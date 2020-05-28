@@ -100,6 +100,42 @@ ApplicationWindow {
 
 
 
+                    ListView {
+                        width: 200
+                        height: 200
+
+                        ListModel {
+                            id: mainModel
+                            ListElement {
+                                name: "Alphabet"
+                                subAlpha: [
+                                    ListElement {
+                                        alphaName: "A"
+                                    },
+                                    ListElement {
+                                        alphaName: "B"
+                                    }
+                                ]
+                            }
+                        }
+
+                        model: mainModel
+                        delegate: Column {
+                            Text { text: name }
+                            Row {
+                                Repeater {
+                                    model: subAlpha
+                                    Text { text: alphaName }
+                                }
+                            }
+                        }
+
+                        Component.onCompleted: {
+                            mainModel.get(0).subAlpha.append({alphaName: "C"})
+                        }
+                    }
+
+
                     //listView displaying all the tasks contained in each Activity.tasks array level
                     ListView {
                         id: tasksListView

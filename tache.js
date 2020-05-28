@@ -29,7 +29,13 @@ function init() {
                    items.root,
                    {
                        "header": "testHeader",
-                       "tasks": "testTask",
+                       "tasks": [
+                        Quick.ListElement {
+                            alphaName: "A"
+                        },
+                        Quick.ListElement {
+                            alphaName: "B"
+                        }],
                        "footer": "testFooter"
                    });
     items.tasksModel.append(taskColumnElements)
@@ -40,7 +46,9 @@ function init() {
                    {
                        "name": "task name"
                    });
-    taskColumnElements.append(taskDetails)
+   // items.tasksModel.get(0).tasks.append(taskDetails)
+
+    items.tasksModel.get(0).tasks.append({alphaName: "C"})
 
 
 
