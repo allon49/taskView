@@ -25,30 +25,30 @@ function init() {
     console.log("init")
 
     tasksColumnComponent = Qt.createComponent("qrc:/myListElement.qml");
-    taskColumnElements = tasksColumnComponent.createObject(
-                   items.root,
-                   {
-                       "header": "testHeader",
-                       "tasks": [
-                        Quick.ListElement {
-                            alphaName: "A"
-                        },
-                        Quick.ListElement {
-                            alphaName: "B"
-                        }],
-                       "footer": "testFooter"
-                   });
-    items.tasksModel.append(taskColumnElements)
+//    taskColumnElements = tasksColumnComponent.createObject(
+//                   items.root,
+//                   {
+//                       "header": "testHeader",
+//                       "tasks": [
+//                        Quick.ListElement {
+//                            alphaName: "A"
+//                        },
+//                        Quick.ListElement {
+//                            alphaName: "B"
+//                        }],
+//                       "footer": "testFooter"
+//                   });
+//    items.tasksModel.append(taskColumnElements)
 
-    columnTasksComponent = Qt.createComponent("qrc:/myListElement.qml");
-    taskDetails = columnTasksComponent.createObject(
-                   items.root,                              //?not sure we attach it to root if we want it to be destroyed
-                   {
-                       "name": "task name"
-                   });
+//    columnTasksComponent = Qt.createComponent("qrc:/myListElement.qml");
+//    taskDetails = columnTasksComponent.createObject(
+//                   items.root,                              //?not sure we attach it to root if we want it to be destroyed
+//                   {
+//                       "name": "task name"
+//                   });
    // items.tasksModel.get(0).tasks.append(taskDetails)
 
-    items.tasksModel.get(0).tasks.append({alphaName: "C"})
+//    items.tasksModel.get(0).tasks.append({alphaName: "C"})
 
 
 

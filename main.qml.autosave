@@ -47,11 +47,6 @@ ApplicationWindow {
         width: taskWidth * 3
         height: 1000
 
-//        ListModel {
-//            id: tasksModel
-//        }
-
-
         ListModel {
             id: taskData
 
@@ -178,31 +173,7 @@ ApplicationWindow {
                         Component.onCompleted: { console.log("Index : " + index) }
                     }
 
-
-
-
-
-                    //listView displaying all the tasks contained in each Activity.tasks array level
-//                    TaskListView {
-//                        id: tasksListView
-
-//                        anchors.top: headerRectangle.bottom
-//                        anchors.left: parent.left
-
-//                        spacing: 20
-
-//                        width: parent.width
-//                        //height: Activity.tasks[taskColumnRectangleIndex].length * 50 < 500 ? Activity.tasks[taskColumnRectangleIndex].length * 50 : 500
-
-//                        height: 800
-
-//                        property int dragItemIndex: -1
-
-//                        model: ["111","222"] // "mainModel.subAlpha
-
-//                        delegate: taskComponent
-//                    }
-
+            
 
                     //at the moment a simple DropArea linked to a rectangle but will be replaced by Tache.qml in the future to be able to contain task informations and goals
                     Component {
