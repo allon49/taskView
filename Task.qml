@@ -2,7 +2,8 @@ import QtQuick 2.0
 
 import "tache.js" as Activity
 
-Item {
+
+DropArea {
     id: taskItem
 
     property bool taskHovered: false
@@ -11,60 +12,46 @@ Item {
     property int taskColumnIndex
     property string taskDescription : ""
 
-
     width: taskWidth
-    height: taskHeight
+    height: taskColumn.height
 
-    DropArea {
-        id: dragTarget
+    Column {
+        id: taskColumn
 
-        property bool entered: false
-
-        width: parent.width
-        height: parent.height
-
-
-        onEntered: {
-            console.log("entered column index: " + taskColumnIndex)
-            console.log("task form inserted flag: " + taskRepeater.itemAt(taskColumnIndex).tempTaskAreaInserted)
-
-            if (taskRepeater.itemAt(taskColumnIndex).tempTaskAreaInserted === true) {
-                console.log("temporary task already insterted -> move")
-                taskData.get(taskColumnIndex).tasks.move(taskRepeater.itemAt(taskColumnIndex).previousIndex,index,1)
-
-            } else {
-                console.log("task enters for the first time -> insert")
-                dropRectangle.color = hoveredColor
-                taskData.get(taskColumnIndex).tasks.insert(index, {"description": "red", color:"blue"})
-                taskRepeater.itemAt(taskColumnIndex).tempTaskAreaInserted = true
-                taskRepeater.itemAt(taskColumnIndex).previousIndex = index
-                //taskData.get(taskColumnIndex).tasks.set(index, {"taskHovered": true})
-            }
-        }
-
-//        onDropped: {
-//            console.log("dropped")
-//            dropRectangle.color = "black"
-
-//            taskData.get(taskColumnIndex).tasks.insert(index, {"description": "red", "taskHovered": true, color:"blue"})
-//        }
+        height: implicitHeight
+        width: taskWidth
+        spacing: 10
 
 
         Rectangle {
             id: dropRectangle
 
             width: parent.width
-            height: parent.height
-
-            anchors.fill: parent
-
+            height: taskHeight
             color: taskItem.defaultColor
 
             Text {
                 anchors.fill: parent
-
-                text: taskItem.taskDescription
+                text: taskDescription
             }
+        }
+
+        Rectangle {
+            id: bottomPlaceHolder
+
+            visible: taskItem.containsDrag// && (dragTarget.drag.y > dropRectangle.height / 2)
+            width: parent.width
+            height: taskHeight
+            color: "grey"
+
+            Text {
+                anchors.fill: parent
+                text: "bottom placeholder"
+            }
+
         }
     }
 }
+
+
+
