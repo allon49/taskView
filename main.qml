@@ -18,6 +18,8 @@ ApplicationWindow {
     property int taskWidth: 250
     property int taskHeight: 100
 
+
+
     function app()
     {
         return   applicationWindow;
@@ -32,6 +34,7 @@ ApplicationWindow {
         //property alias tasksModel : tasksModel
         property alias root : root
         property alias taskData : taskData
+
     }
 
 
@@ -106,21 +109,14 @@ ApplicationWindow {
             Repeater {
                 id: taskRepeater
 
-                property bool taskRepeaterIsBeingRendered: false
-
-
                 model: taskData
 
                 // taskColumnRectangle includes tasks header, n tasks and a footer button to add additional tasks
                 Rectangle {
                     id: taskColumnRectangle
 
-                    Component.onCompleted: {
-                        taskRepeater.taskRepeaterIsBeingRendered = false
-                        console.log("set taskRepeaterIsBeingRendered = false")
-                        console.log("rectangle : " + tasks.get(0).title)
-
-                    }
+                    property bool tempTaskAreaInserted: false
+                    property int previousIndex: 0
 
                     width: taskWidth
                     height: 1000
