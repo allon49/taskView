@@ -30,11 +30,11 @@ ApplicationWindow {
     // Add here the QML items you need to access in javascript
     QtObject {
         id: items
-        property alias taskRepeater : taskRepeater
+  //      property alias taskRepeater : taskRepeater
         //property alias tasksModel : tasksModel
-        property alias root : root
-        property alias taskData : taskData
-
+  //      property alias root : root
+  //      property alias taskData : taskData
+  //      property alias movingTask : movingTask
     }
 
 
@@ -175,6 +175,7 @@ ApplicationWindow {
                         Task {
 
                             taskColumnIndex: taskColumnRectangleIndex
+                            taskIndex: index
                             taskDescription: description
                             taskHovered: taskHovered
                             defaultColor: color
@@ -224,17 +225,21 @@ ApplicationWindow {
         // When movingTask enters Task, an supplementary task (a value in the array) is added at the index of the task entered.
         // When exiting the task, this supplementary task is removed.
         // If movingTask is dropped on any of the Task element a supplementary task is definitly added.
-        TaskMobile {
-            id: movingTask
 
-            z: 10
 
-            anchors.top: tasksRow.top
-            anchors.left: tasksRow.right
 
-            width: taskWidth
-            height: taskHeight
 
-        }
     }
+
+    TaskMobile {
+        id: movingTask
+
+        anchors.top: parent.top
+        anchors.right: parent.right
+
+        width: taskWidth - 100
+        height: taskHeight
+
+    }
+
 }

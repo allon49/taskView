@@ -3,59 +3,60 @@ import QtQuick 2.0
 Item {
     id: taskMobileItem
 
-    anchors.bottomMargin: 50
 
     property string color : "red"
     property string text : "default Text"
 
-    width: parent.width
-    height: parent.height + 50
+    width: 64
+    height: 64
+
+    MouseArea {
+        id: mouseArea
+
+        width: 64; height: 64
+        anchors.centerIn: parent
 
 
-    Rectangle {
-        id: dragTaskRect
+        drag.target: dragTaskRect
 
-        property int dragTaskRectIndex
+        onReleased: {
+            dragTaskRect.Drag.drop()
+            parent = dragTaskRect.Drag.target !== null ? dragTaskRect.Drag.target : taskMobileItem
+            console.log("id of the item to drag: " + dragTaskRect.Drag.target)
 
-        width: taskMobileItem.width
-        height: taskMobileItem.height
-
-        color: "pink" //taskMobileItem.color
-
-        Text {
-            anchors.centerIn: parent
-            text: taskMobileItem.text
         }
 
-        MouseArea {
-            id: mouseArea
-            anchors.fill: parent
 
-            drag.target: dragTaskRect
+        Rectangle {
+            id: dragTaskRect
 
-            onReleased: {
-                parent.Drag.drop()
+            width: 64
+            height: 64
+
+            anchors.verticalCenter: parent.verticalCenter
+            anchors.horizontalCenter: parent.horizontalCenter
+
+            color: "pink" //taskMobileItem.color
+
+            Drag.keys: [ "red" ]
+            Drag.active: mouseArea.drag.active
+            Drag.hotSpot.x: 32
+            Drag.hotSpot.y: 32
+
+            Text {
+                anchors.centerIn: parent
+                text: taskMobileItem.text
             }
-        }
 
-        states: [
-        State {
-            when: dragTaskRect.Drag.active
-            ParentChange {
-                target: dragTaskRect
-                parent: root
+            states: State {
+                when: mouseArea.drag.active
+                ParentChange { target: dragTaskRect; parent: taskMobileItem }
+                AnchorChanges {
+                    target: dragTaskRect
+                    anchors.horizontalCenter: undefined
+                    anchors.verticalCenter: undefined
+                }
             }
-
-            AnchorChanges {
-                target: dragTaskRect
-                anchors.horizontalCenter: undefined
-                anchors.verticalCenter: undefined
-            }
-        }
-        ]
-
-        Drag.active: mouseArea.drag.active
-        Drag.hotSpot.x: dragTaskRect.width / 2
-        Drag.hotSpot.y: dragTaskRect.height / 2
+         }
     }
 }
