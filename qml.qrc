@@ -6,7 +6,6 @@
         <file>Tache.qml</file>
         <file>TacheForm.ui.qml</file>
         <file>Task.qml</file>
-        <file>TaskMobile.qml</file>
         <file>TaskListView.qml</file>
     </qresource>
 </RCC>

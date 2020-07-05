@@ -12,9 +12,6 @@ ApplicationWindow {
     height: 1000
     
     
-    property string tempTaskValue : ""
-
-
     property int taskWidth: 250
     property int taskHeight: 100
 
@@ -30,11 +27,6 @@ ApplicationWindow {
     // Add here the QML items you need to access in javascript
     QtObject {
         id: items
-  //      property alias taskRepeater : taskRepeater
-        //property alias tasksModel : tasksModel
-  //      property alias root : root
-  //      property alias taskData : taskData
-  //      property alias movingTask : movingTask
     }
 
 
@@ -44,11 +36,62 @@ ApplicationWindow {
     }
 
 
+    ListElement {
+        id: taskElement
+
+        property var color
+        property var image
+        property var description
+        property var title
+
+        title: "New column First task title"
+        description: "First task description"
+        image: "First task image"
+        color: "red"
+    }
+
+
+//    ListElement {
+//        id: defaultTaskColumnListElement
+
+//        property string headerTitle
+//        property list<taskElement> tasks
+
+//        headerTitle: "Give a title to your column"
+//        tasks: [
+//            ListElement {
+
+//                property var color
+//                property var image
+//                property var description
+//                property var title
+
+//                title: "New column First task title"
+//                description: "First task description"
+//                image: "First task image"
+//                color: "red"
+//            },
+//            ListElement {
+
+//                property var color
+//                property var image
+//                property var description
+//                property var title
+
+//                title: "New column second task title"
+//                description: "second task description"
+//                image: "second task image"
+//                color: "red"
+//            }
+//        ]
+//    }
+
+
     Rectangle {
         id: root
 
         width: taskWidth * 3
-        height: 1000
+        height: parent.height
 
         ListModel {
             id: taskData
@@ -61,18 +104,15 @@ ApplicationWindow {
                         title: "Column 1 First task title"
                         description: "Column 1 First task description"
                         image: "Column 1 First task image"
-                        taskHovered: false
                         color: "red"
                     },
                     ListElement {
                         title: "Column 1 second task title"
                         description: "Column 1 second task description"
                         image: "Column 1 second task image"
-                        taskHovered: false
                         color: "red"
                     }
                 ]
-                footerTitle: "Footer Title"
             }
 
 
@@ -84,18 +124,17 @@ ApplicationWindow {
                         title: "Column 2 First task title"
                         description: "Column 2 First task description"
                         image: "Column 2 First task image"
-                        taskHovered: false
-                        color: "red"
-                    },
-                    ListElement {
-                        title: "Column 2 second task title"
-                        description: "Column 2 second task description"
-                        image: "Column 2 second task image"
-                        taskHovered: false
                         color: "red"
                     }
                 ]
-                footerTitle: "Footer Title 2"
+            }
+
+            ListElement {
+
+                headerTitle: "Header Title 3"
+                tasks: [
+
+                ]
             }
 
         }
@@ -103,7 +142,7 @@ ApplicationWindow {
 
         //tasksRow and its repeater create n tasks columns, n being the number of elements (level 1) in Activity.tasks array
         Row {
-            id: tasksRow
+            id: tasksColumnRows
             spacing: 10
 
             Repeater {
@@ -111,27 +150,28 @@ ApplicationWindow {
 
                 model: taskData
 
-                // taskColumnRectangle includes tasks header, n tasks and a footer button to add additional tasks
+                // taskColumnRectangle includes tasks header, a placeHolder if there is no task, n tasks and an insert header and footer button to add additional tasks
                 Rectangle {
-                    id: taskColumnRectangle
-
-                    property bool tempTaskAreaInserted: false
-                    property int previousIndex: 0
+                    id: tasksColumnRectangle
 
                     width: taskWidth
-                    height: 1000
+                    height: root.height
                     border.width: 1
                     color: "yellow"
 
                     property int taskColumnRectangleIndex: index
+
 
                     Rectangle {
                         id: headerRectangle
 
                         anchors.top: parent.top
                         anchors.left: parent.left
+
                         width: taskWidth
                         height: 50
+
+                        color: "lightgreen"
 
                         Text {
                             id: headerText
@@ -144,74 +184,151 @@ ApplicationWindow {
                     }
 
 
-                    //listView displaying all the tasks contained in each Activity.tasks array level
-                    ListView {
-                        id: tasksListView
+                    //insert (upfront) task button
+                    Rectangle {
+                        id: insertTaskUpFrontRectangle
 
                         anchors.top: headerRectangle.bottom
                         anchors.left: parent.left
 
-                        spacing: 20
-
-                        width: parent.width
-                        //height: Activity.tasks[taskColumnRectangleIndex].length * 50 < 500 ? Activity.tasks[taskColumnRectangleIndex].length * 50 : 500
-
-                        height: 800
-
-                        property int dragItemIndex: -1
-
-                        model: taskData.get(index).tasks
-
-                        delegate: taskComponent
-
-                        Component.onCompleted: { console.log("Index : " + index) }
-                    }
-
-
-                    //at the moment a simple DropArea linked to a rectangle but will be replaced by Tache.qml in the future to be able to contain task informations and goals
-                    Component {
-                        id: taskComponent
-
-                        Task {
-
-                            taskColumnIndex: taskColumnRectangleIndex
-                            taskIndex: index
-                            taskDescription: description
-                            taskHovered: taskHovered
-                            defaultColor: color
-                        }
-                    }
-
-                    //footer with the + caption
-                    Rectangle {
-                        id: footerRectangle
-
-                        anchors.top: tasksListView.bottom
-                        anchors.left: parent.left
                         width: parent.width
                         height: 50
+                        color: "lightsteelblue"
 
                         Text {
-                            id: footerText
+                            id: insertUpFrontText
 
                             anchors.horizontalCenter: parent.horizontalCenter
                             anchors.verticalCenter: parent.verticalCenter
 
                             text: qsTr("+")
 
-                            MouseArea {
-                                id: addTaskButton
+                            color: "red"
+                        }
+
+                        MouseArea {
+                            id: upFrontAddTaskButton
+
+                            anchors.fill: parent
+                            onClicked: {
+                                var tmp = Activity.tasks
+                                tmp[taskColumnRectangleIndex].push("test")  //?
+                                Activity.tasks = tmp
+
+                                taskData.get(taskColumnRectangleIndex).tasks.insert(0, {"description": "task number: 0", /*"taskHovered": true*/ color:"red"})
+
+                                console.log("rr")
+                            }
+                        }
+                    }
+
+                    Column {
+                        id: taskColumnRectangle
+
+                        anchors.top: insertTaskUpFrontRectangle.bottom
+                        anchors.bottom: insertTaskAtBottomRectangle.top
+                        anchors.left: parent.left
+                        width: parent.width
+
+                        //placeholder if no task in the listview
+                        Rectangle {
+                            id: noTaskPlaceHolder
+
+                            visible: taskData.get(taskColumnRectangleIndex).tasks.count === 0 ? true : false
+                            width: parent.width
+                            height: taskHeight
+                            color: !bottomPlaceHolderDropArea.containsDrag ? "grey" : "green"
+
+                            Text {
+                                anchors.fill: parent
+                                text: "front placeholder"
+                            }
+
+                            DropArea {
+                                id: bottomPlaceHolderDropArea
 
                                 anchors.fill: parent
-                                onClicked: {
-                                    var tmp = Activity.tasks
-                                    tmp[taskColumnRectangleIndex].push("test")
-                                    Activity.tasks = tmp
 
-                                    console.log("rr")
+                                onDropped: {
+                                    taskData.get(taskColumnRectangleIndex).tasks.insert(0, taskData.get(drag.source.taskColumnIndex).tasks.get(drag.source.taskIndex))
+                                    taskData.get(drag.source.taskColumnIndex).tasks.remove(drag.source.taskIndex, 1)
 
-                                    //taskRepeater.model = Activity.tasks
+                                    console.log("ddd")
+                                    console.log(drag.source.taskColumnIndex)
+                                    console.log(drag.source.taskIndex)
+
+                                    console.log("fffffffffffffffffff" + bottomPlaceHolderDropArea)
                                 }
+                            }
+                        }
+
+
+
+                        //listView displaying all the tasks contained in each Activity.tasks array level
+                        ListView {
+                            id: tasksListView
+
+                            spacing: 20
+
+                            width: parent.width
+
+                            height: parent.height
+
+                            model: taskData.get(index).tasks
+
+                            delegate: taskComponent
+
+                            Component.onCompleted: { console.log("Index : " + index) }
+                        }
+
+
+                        //at the moment a simple DropArea linked to a rectangle but will be replaced by Tache.qml in the future to be able to contain task informations and goals
+                        Component {
+                            id: taskComponent
+
+                            Task {
+
+                                taskColumnIndex: taskColumnRectangleIndex
+                                taskIndex: index
+                                taskDescription: description
+                                taskHovered: taskHovered
+                                defaultColor: color
+                            }
+                        }
+                    }
+
+                    //footer with the + caption
+                    Rectangle {
+                        id: insertTaskAtBottomRectangle
+
+                        anchors.left: parent.left
+                        anchors.bottom: tasksColumnRectangle.bottom
+
+                        width: parent.width
+                        height: 50
+                        color: "lightsteelblue"
+
+                        Text {
+                            id: insertBottomText
+
+                            anchors.horizontalCenter: parent.horizontalCenter
+                            anchors.verticalCenter: parent.verticalCenter
+
+                            text: qsTr("+")
+
+                        }
+
+                        MouseArea {
+                            id: bottomAddTaskButton
+
+                            anchors.fill: parent
+                            onClicked: {
+                                var tmp = Activity.tasks
+                                tmp[taskColumnRectangleIndex].push("test")
+                                Activity.tasks = tmp
+
+                                taskData.get(taskColumnRectangleIndex).tasks.insert(taskData.get(taskColumnRectangleIndex).tasks.count, {"description": "task number: " + taskData.get(taskColumnRectangleIndex).tasks.count, /*"taskHovered": true*/ color:"red"})
+
                             }
                         }
                     }
@@ -219,27 +336,41 @@ ApplicationWindow {
             }
         }
 
-        // movingTask is a temporary task that is movable. It is used to try the concept.
-        // the Task elements contained in the ListView are at the moment a DropArea that interacts with movingTask
-        // movingTask is a mousearea linked to a rectangle.
-        // When movingTask enters Task, an supplementary task (a value in the array) is added at the index of the task entered.
-        // When exiting the task, this supplementary task is removed.
-        // If movingTask is dropped on any of the Task element a supplementary task is definitly added.
+        Rectangle {
+            id: headerAddNewColumn
+
+            anchors.top: parent.top
+            anchors.left: tasksColumnRows.right
+
+            anchors.leftMargin: 10
+
+            width: taskWidth
+            height: 50
+
+            color: "lightgreen"
+
+            Text {
+                id: headerText
+
+                anchors.horizontalCenter: parent.horizontalCenter
+                anchors.verticalCenter: parent.verticalCenter
+
+                text: qsTr("Click here to add a new column")
+            }
+
+            MouseArea {
+                id: headerAddNewColumnMouseArea
+
+                anchors.fill: parent
+                onClicked: {
+                    console.log("Insert a new column")
+
+                }
+            }
 
 
+        }
 
 
     }
-
-    TaskMobile {
-        id: movingTask
-
-        anchors.top: parent.top
-        anchors.right: parent.right
-
-        width: taskWidth - 100
-        height: taskHeight
-
-    }
-
 }

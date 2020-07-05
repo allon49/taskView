@@ -3,7 +3,7 @@ import QtQuick 2.0
 import "tache.js" as Activity
 
 
-DropArea {
+Item {
     id: taskItem
 
     property bool taskHovered: false
@@ -17,116 +17,95 @@ DropArea {
     width: taskWidth
     height: taskColumn.height
 
-
-    MouseArea {
-
-
-
+    DropArea {
+        id: taskItemDropArea
         anchors.fill: parent
 
-        id: mouseArea
+        MouseArea {
+            id: mouseArea
 
-        drag.target: taskColumn
+            anchors.fill: parent
+            drag.target: taskColumn
 
-        onPressed: {
-//            dragTaskRect.Drag.drop()
-//            parent = dragTaskRect.Drag.target !== null ? dragTaskRect.Drag.target : taskMobileItem
-            //console.log("id of the item to drag: " + dragTaskRect.Drag.target)
-
-
-        }
-
-
-
-        onReleased: {
-
-            taskColumn.Drag.drop()
-//            parent = dragTaskRect.Drag.target !== null ? dragTaskRect.Drag.target : taskMobileItem
-            //console.log("id of the item to drag: " + dragTaskRect.Drag.target)
-
-        }
-
-
-        Column {
-            id: taskColumn
-
-            property int taskColumnIndex
-            property int taskIndex
-
-            taskColumnIndex: taskItem.taskColumnIndex
-            taskIndex: taskItem.taskIndex
-
-            height: implicitHeight
-            width: taskWidth
-            spacing: 10
-
-            Drag.active: mouseArea.drag.active
-            Drag.hotSpot.x: 32
-            Drag.hotSpot.y: 32
-
-
-            Rectangle {
-                id: dropRectangle
-
-                width: parent.width
-                height: taskHeight
-                color: taskItem.defaultColor
-
-
-                Text {
-                    anchors.fill: parent
-                    text: taskDescription
-                }
-
-                states: State {
-                    when: mouseArea.drag.active
-                    ParentChange { target: taskColumn; parent: taskItem }
-                    AnchorChanges {
-                        target: taskColumn
-                        anchors.horizontalCenter: undefined
-                        anchors.verticalCenter: undefined
-                    }
-                }
+            onReleased: {
+                taskColumn.Drag.drop()
+                parent = taskColumn.Drag.target !== null ? dragTaskRect.Drag.target : taskItem
+                console.log("id of the item to drag: " + taskColumn.Drag.target)
             }
 
+            Column {
+                id: taskColumn
 
-            Rectangle {
-                id: bottomPlaceHolder
+                property int taskColumnIndex
+                property int taskIndex
 
-                visible: taskItem.containsDrag// && (dragTarget.drag.y > dropRectangle.height / 2)
-                width: parent.width
-                height: taskHeight
-                color: !bottomPlaceHolderDropArea.containsDrag ? "grey" : "green"
+                taskColumnIndex: taskItem.taskColumnIndex
+                taskIndex: taskItem.taskIndex
 
-                Text {
-                    anchors.fill: parent
-                    text: "bottom placeholder"
+                height: implicitHeight
+                width: taskWidth
+                spacing: 10
+
+                Drag.active: mouseArea.drag.active
+                Drag.hotSpot.x: 32
+                Drag.hotSpot.y: 32
+
+                Rectangle {
+                    id: dropRectangle
+
+                    width: parent.width
+                    height: taskHeight
+                    color: taskItem.defaultColor
+
+                    Text {
+                        anchors.fill: parent
+                        text: taskDescription
+                    }
+
+                    states: State {
+                        when: mouseArea.drag.active
+                        ParentChange { target: taskColumn; parent: taskItem }
+                        AnchorChanges {
+                            target: taskColumn
+                            anchors.horizontalCenter: undefined
+                            anchors.verticalCenter: undefined
+                        }
+                    }
                 }
 
+                Rectangle {
+                    id: bottomPlaceHolder
 
-                DropArea {
-                    id: bottomPlaceHolderDropArea
+                    visible: taskItemDropArea.containsDrag
+                    width: parent.width
+                    height: taskHeight
+                    color: !bottomPlaceHolderDropArea.containsDrag ? "grey" : "green"
 
-                    anchors.fill: parent
+                    Text {
+                        anchors.fill: parent
+                        text: "bottom placeholder"
+                    }
 
-                    onDropped: {
+                    DropArea {
+                        id: bottomPlaceHolderDropArea
 
-                        taskData.get(taskColumnIndex).tasks.insert(index+1, {"description": "red", /*"taskHovered": true*/ color:"red"})
-                        taskData.get(drag.source.taskColumnIndex).tasks.remove(drag.source.taskIndex, 1)
+                        anchors.fill: parent
 
-                        console.log("ddd")
-                        console.log(drag.source.taskColumnIndex)
-                        console.log(drag.source.taskIndex)
+                        onDropped: {
+                            taskData.get(taskColumnIndex).tasks.insert(index+1, taskData.get(drag.source.taskColumnIndex).tasks.get(drag.source.taskIndex))
+                            taskData.get(drag.source.taskColumnIndex).tasks.remove(drag.source.taskIndex, 1)
 
+                            console.log("ddd")
+                            console.log(drag.source.taskColumnIndex)
+                            console.log(drag.source.taskIndex)
 
-                        console.log("fffffffffffffffffff" + bottomPlaceHolderDropArea)
-
+                            console.log("fffffffffffffffffff" + bottomPlaceHolderDropArea)
+                        }
                     }
                 }
             }
         }
     }
 }
-
 
 
