@@ -365,6 +365,8 @@ ApplicationWindow {
                 onClicked: {
                     console.log("Insert a new column")
 
+                    taskData.insert(0, {"headerTitle": "Header Title n", "tasks": []})
+
                 }
             }
 
