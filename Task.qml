@@ -28,9 +28,11 @@ Item {
             drag.target: taskColumn
 
             onReleased: {
-                taskColumn.Drag.drop()
-                parent = taskColumn.Drag.target !== null ? dragTaskRect.Drag.target : taskItem
+
+                parent = taskColumn.Drag.target !== null ? taskColumn.Drag.target : taskItem
                 console.log("id of the item to drag: " + taskColumn.Drag.target)
+                taskColumn.Drag.drop()
+
             }
 
             Column {
