@@ -7,5 +7,6 @@
         <file>TacheForm.ui.qml</file>
         <file>Task.qml</file>
         <file>TaskListView.qml</file>
+        <file>TaskDataModel.qml</file>
     </qresource>
 </RCC>

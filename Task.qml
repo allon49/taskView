@@ -34,9 +34,6 @@ Item {
                 taskColumn.Drag.drop()
                 taskColumn.x = 0
                 taskColumn.y = 0
-
-
-
             }
 
             Column {
