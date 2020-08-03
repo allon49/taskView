@@ -108,9 +108,7 @@ ApplicationWindow {
         DelegateModel {
             id: visualModel
 
-            //model: PetsModel {}
             model: taskData
-
             delegate: TasksColumn {}
         }
 
@@ -124,7 +122,7 @@ ApplicationWindow {
 
             anchors.left: parent.left
             anchors.top: parent.top
-            width: 500
+            width: parent.width
             spacing: 4
             cacheBuffer: 50
             model: visualModel

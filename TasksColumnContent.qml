@@ -5,7 +5,7 @@ import "tache.js" as Activity
 Item {
 
     width: parent.width
-    height: 300
+    height: parent.height
 
     property int taskColumnRectangleIndex: index
 
@@ -109,11 +109,12 @@ Item {
         }
 
 
-        //at the moment a simple DropArea linked to a rectangle but will be replaced by Tache.qml in the future to be able to contain task informations and goals
         Component {
             id: taskComponent
 
             Task {
+
+                width: parent.width
 
                 taskColumnIndex: taskColumnRectangleIndex
                 taskIndex: index

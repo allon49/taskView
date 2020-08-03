@@ -2,7 +2,6 @@ import QtQuick 2.0
 import QtQml.Models 2.1
 
 Component {
-    id: dragDelegate2
 
     Rectangle {
         id: tasksColumn
@@ -10,17 +9,16 @@ Component {
 
         width: 200
 
-        height: dragArea.height
-
+        height: root.height
         color: "green"
 
         MouseArea {
-            id: dragArea
+            id: columnHeaderMouseArea
 
             property bool held: false
 
             anchors { left: parent.left; right: parent.right }
-            height: content.height
+            height: content.height   //?change content to header something
 
             drag.target: held ? content : undefined
             drag.axis: Drag.XAxis
@@ -35,24 +33,24 @@ Component {
                     horizontalCenter: parent.horizontalCenter
                     verticalCenter: parent.verticalCenter
                 }
-                width: dragArea.width;
+                width: columnHeaderMouseArea.width;
                 height: column.implicitHeight + 4
 
                 border.width: 1
                 border.color: "lightsteelblue"
 
-                color: dragArea.held ? "lightsteelblue" : "white"
+                color: columnHeaderMouseArea.held ? "lightsteelblue" : "white"
                 Behavior on color { ColorAnimation { duration: 100 } }
 
                 radius: 2
 
-                Drag.active: dragArea.held
-                Drag.source: dragArea
+                Drag.active: columnHeaderMouseArea.held
+                Drag.source: columnHeaderMouseArea
                 Drag.hotSpot.x: width / 2
                 Drag.hotSpot.y: height / 2
 
                 states: State {
-                    when: dragArea.held
+                    when: columnHeaderMouseArea.held
 
                     ParentChange { target: content; parent: root }
                     AnchorChanges {
@@ -86,11 +84,11 @@ Component {
 
                 onEntered: {
                     console.log("drag.source.parent.DelegateModel.itemsIndex " + drag.source.parent.DelegateModel.itemsIndex)
-                    console.log("dragArea.parent.DelegateModel.itemsIndex " + dragArea.parent.DelegateModel.itemsIndex)
+                    console.log("columnHeaderMouseArea.parent.DelegateModel.itemsIndex " + columnHeaderMouseArea.parent.DelegateModel.itemsIndex)
 
                     visualModel.items.move(
                             drag.source.parent.DelegateModel.itemsIndex,
-                            dragArea.parent.DelegateModel.itemsIndex)
+                            columnHeaderMouseArea.parent.DelegateModel.itemsIndex)
                 }
             }
 
@@ -98,34 +96,26 @@ Component {
 
 
         TasksColumnContent {
-            anchors.top: dragArea.bottom
-            anchors.left: dragArea.left
+            id: tasksColumnContent
+
+            anchors.top: columnHeaderMouseArea.bottom
+            anchors.left: columnHeaderMouseArea.left
+
+            width: tasksColumn.width
+            height: parent.height - columnHeaderMouseArea.height
+
+            states: State {
+                when: columnHeaderMouseArea.held
+
+                ParentChange { target: tasksColumnContent; parent: root; x: content.x }
+                AnchorChanges {
+                    target: tasksColumnContent
+                    anchors { horizontalCenter: undefined; verticalCenter: undefined }
+                }
+
+            }
+
 
         }
-
-
-//        Rectangle {
-//            id: taskRectangle
-
-//            anchors.top: dragArea.bottom
-//            anchors.left: dragArea.left
-
-//            width: dragArea.width
-//            height: 60
-
-//            Text { text: "My Tasks : " + index + " " + dragArea.held }
-
-//            states: State {
-//                when: dragArea.held
-
-//                ParentChange { target: taskRectangle; parent: root; x: content.x }
-//                AnchorChanges {
-//                    target: taskRectangle
-//                    anchors { horizontalCenter: undefined; verticalCenter: undefined }
-//                }
-
-//            }
-//            color: "lightblue"
-//        }
     }
 }

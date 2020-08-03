@@ -14,18 +14,21 @@ Item {
 
     property string taskDescription : ""
 
-    width: taskWidth
+    width: parent.width
     height: taskColumn.height
 
     DropArea {
         id: taskItemDropArea
         anchors.fill: parent
+        width: parent.width
 
         MouseArea {
             id: mouseArea
 
+
             anchors.fill: parent
             drag.target: taskColumn
+            width: parent.width
 
             onReleased: {
 
@@ -46,7 +49,8 @@ Item {
                 taskIndex: taskItem.taskIndex
 
                 height: implicitHeight
-                width: taskWidth
+                width: parent.width
+
                 spacing: 10
 
                 Drag.active: mouseArea.drag.active
