@@ -1,4 +1,5 @@
 import QtQuick 2.0
+import QtQuick.Controls 2.12
 
 import "tache.js" as Activity
 
@@ -36,9 +37,9 @@ Item {
 
             anchors.fill: parent
             onClicked: {
-                var tmp = Activity.tasks
-                tmp[taskColumnRectangleIndex].push("test")  //?
-                Activity.tasks = tmp
+              //  var tmp = Activity.tasks
+              //  tmp[taskColumnRectangleIndex].push("test")  //?
+              //  Activity.tasks = tmp
 
                 taskData.get(taskColumnRectangleIndex).tasks.insert(0, {"description": "task number: 0", /*"taskHovered": true*/ color:"red"})
 
@@ -96,16 +97,16 @@ Item {
             id: tasksListView
 
             spacing: 20
-
             width: parent.width
-
             height: parent.height
-
             model: taskData.get(index).tasks
-
             delegate: taskComponent
-
-            Component.onCompleted: { console.log("Index : " + index) }
+            Component.onCompleted: { console.log("Index : " + index) }  //?
+            ScrollBar.vertical: ScrollBar {
+                id: tasksColumnContentScrollbar
+                policy: ScrollBar.AlwaysOn
+                width: 15
+            }
         }
 
 
@@ -114,7 +115,7 @@ Item {
 
             Task {
 
-                width: parent.width
+                width: parent.width - tasksColumnContentScrollbar.width
 
                 taskColumnIndex: taskColumnRectangleIndex
                 taskIndex: index
@@ -151,12 +152,7 @@ Item {
 
             anchors.fill: parent
             onClicked: {
-                var tmp = Activity.tasks
-                tmp[taskColumnRectangleIndex].push("test")
-                Activity.tasks = tmp
-
                 taskData.get(taskColumnRectangleIndex).tasks.insert(taskData.get(taskColumnRectangleIndex).tasks.count, {"description": "task number: " + taskData.get(taskColumnRectangleIndex).tasks.count, /*"taskHovered": true*/ color:"red"})
-
             }
         }
     }

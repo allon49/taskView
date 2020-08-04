@@ -112,64 +112,23 @@ ApplicationWindow {
             delegate: TasksColumn {}
         }
 
-
-
-
-
-
         ListView {
             id: tasksColumns
 
             anchors.left: parent.left
             anchors.top: parent.top
             width: parent.width
+            height: parent.height
             spacing: 4
             cacheBuffer: 50
             model: visualModel
             orientation: ListView.Horizontal
 
-
-//                // taskColumnRectangle includes tasks header, a placeHolder if there is no task, n tasks and an insert header and footer button to add additional tasks
-//                Rectangle {
-//                    id: tasksColumnRectangle
-
-//                    width: taskWidth
-//                    height: root.height
-//                    border.width: 1
-//                    color: "yellow"
-
-//                    property int taskColumnRectangleIndex: index
-
-
-//                    Rectangle {
-//                        id: headerRectangle
-
-//                        anchors.top: parent.top
-//                        anchors.left: parent.left
-
-//                        width: taskWidth
-//                        height: 50
-
-//                        color: "lightgreen"
-
-//                        Text {
-//                            id: headerText
-
-//                            anchors.horizontalCenter: parent.horizontalCenter
-//                            anchors.verticalCenter: parent.verticalCenter
-
-//                            text: qsTr("Title " + taskData.get(index).headerTitle)
-//                        }
-//                    }
-
-//                    TasksColumnContent {
-//                        id: taskColumnContent
-
-//                        anchors.top: headerRectangle.bottom
-//                        anchors.bottom: parent.bottom
-//                        anchors.left: headerRectangle.left
-//                    }
-//                }
+            ScrollBar.horizontal: ScrollBar {
+                id: tasksColumnsScrollbar
+                policy: ScrollBar.AlwaysOn
+                height: 30
+            }
         }
 
         ColumnHeader {
