@@ -1,3 +1,11 @@
+// to do
+// - when dragged from a left column tasks elements are under droparea
+// - create signals to fill datatasks
+// - create optional button to add column. This can be also triggered by a signal
+// - insert placeholder (when no task) within tasks listview in order to avoid shifting it down
+
+
+
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQml.Models 2.1

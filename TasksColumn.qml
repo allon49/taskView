@@ -10,7 +10,7 @@ Component {
         width: 200
 
         height: root.height - tasksColumnsScrollbar.height
-        color: "green"
+        color: "lightgreen"
 
         MouseArea {
             id: columnHeaderMouseArea
