@@ -71,7 +71,7 @@ Component {
 
                         Text {
                             id: dateText
-                            text: "test" //"date + " " + index
+                            text: modelData.headertitle
                         }
                     }
                 }

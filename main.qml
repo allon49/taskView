@@ -9,6 +9,9 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import QtQml.Models 2.1
+import QtQuick.Dialogs 1.3
+
+import gcompris_tasks 1.0
 
 import "tache.js" as Activity
 
@@ -69,46 +72,46 @@ ApplicationWindow {
         ListModel {
             id: taskData
 
-            ListElement {
+//            ListElement {
 
-                headerTitle: "Header Title 1"
-                tasks: [
-                    ListElement {
-                        title: "Column 1 First task title"
-                        description: "Column 1 First task description"
-                        image: "Column 1 First task image"
-                        color: "red"
-                    },
-                    ListElement {
-                        title: "Column 1 second task title"
-                        description: "Column 1 second task description"
-                        image: "Column 1 second task image"
-                        color: "red"
-                    }
-                ]
-            }
+//                headerTitle: "Header Title 1"
+//                tasks: [
+//                    ListElement {
+//                        title: "Column 1 First task title"
+//                        description: "Column 1 First task description"
+//                        image: "Column 1 First task image"
+//                        color: "red"
+//                    },
+//                    ListElement {
+//                        title: "Column 1 second task title"
+//                        description: "Column 1 second task description"
+//                        image: "Column 1 second task image"
+//                        color: "red"
+//                    }
+//                ]
+//            }
 
 
-            ListElement {
+//            ListElement {
 
-                headerTitle: "Header Title 2"
-                tasks: [
-                    ListElement {
-                        title: "Column 2 First task title"
-                        description: "Column 2 First task description"
-                        image: "Column 2 First task image"
-                        color: "red"
-                    }
-                ]
-            }
+//                headerTitle: "Header Title 2"
+//                tasks: [
+//                    ListElement {
+//                        title: "Column 2 First task title"
+//                        description: "Column 2 First task description"
+//                        image: "Column 2 First task image"
+//                        color: "red"
+//                    }
+//                ]
+//            }
 
-            ListElement {
+//            ListElement {
 
-                headerTitle: "Header Title 3"
-                tasks: [
+//                headerTitle: "Header Title 3"
+//                tasks: [
 
-                ]
-            }
+//                ]
+//            }
 
         }
 
@@ -116,7 +119,7 @@ ApplicationWindow {
         DelegateModel {
             id: visualModel
 
-            model: taskData
+            //model: taskData
             delegate: TasksColumn {}
         }
 
@@ -162,6 +165,93 @@ ApplicationWindow {
                 }
             }
         }
+
+
+        ColumnHeader {
+            id: loadTaskData
+
+            anchors.top: headerAddNewColumn.bottom
+            anchors.right: root.right
+
+            anchors.topMargin : 5
+
+            width: taskWidth
+            height: 50
+
+            text: qsTr("Loading task data file")
+            color: "lightgreen"
+
+            MouseArea {
+                id: loadTaskDataMouseArea
+
+                anchors.fill: parent
+                onClicked: {
+                    console.log("Open task file")
+
+                    root.readDocument()
+
+                }
+            }
+        }
+
+        function readDocument() {
+            //io.source = "/home/charruau/Development/taskView/Data.qml"
+            io.source = "Data.qml"
+
+            console.log("io.source: " + io.source)
+
+            io.read()
+            console.log("io.text: " + io.text)
+            visualModel.model = JSON.parse(io.text)
+//var taskData2 = JSON.parse('{"result":true, "count":42}')
+
+            console.log(JSON.stringify(visualModel.model, null, 4))
+
+
+        }
+
+        function saveDocument() {
+            var data = taskData
+
+            //console.log("data: " + data)
+            //io.source = "/home/home/charruau/test.json"
+          //  io.text = JSON.stringify(data, null, 4)
+            console.log("--")
+            console.log(JSON.stringify(data))
+
+            var datamodel = []
+            for (var i = 0; i < taskData.count; ++i)
+            {
+                datamodel.push(taskData.get(i))
+                console.log(taskData.get(i))
+                console.log("--")
+                console.log(taskData.get(i).count)
+            }
+
+
+            console.log(JSON.stringify(datamodel))
+
+
+
+
+
+
+            //io.write()
+        }
+
+//        FileDialog {
+//            id: openDialog
+//            onAccepted: {
+//                root.saveDocument()
+//            }
+//        }
+
+        FileIO {
+            id: io
+        }
+
+
+
     }
 }
 

@@ -62,7 +62,7 @@ Item {
         Rectangle {
             id: noTaskPlaceHolder
 
-            visible: taskData.get(taskColumnRectangleIndex).tasks.count === 0 ? true : false
+            visible: modelData.tasks.count === 0 ? true : false
             width: parent.width
             height: taskHeight
             color: !bottomPlaceHolderDropArea.containsDrag ? "grey" : "green"
@@ -99,7 +99,7 @@ Item {
             spacing: 20
             width: parent.width
             height: parent.height
-            model: taskData.get(index).tasks
+            model: modelData.tasks
             delegate: taskComponent
             Component.onCompleted: { console.log("Index : " + index) }  //?
             ScrollBar.vertical: ScrollBar {
@@ -119,9 +119,9 @@ Item {
 
                 taskColumnIndex: taskColumnRectangleIndex
                 taskIndex: index
-                taskDescription: description
+                taskDescription: modelData.description
                 taskHovered: taskHovered
-                defaultColor: color
+                defaultColor: modelData.color
             }
         }
     }
