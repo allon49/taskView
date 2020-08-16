@@ -203,9 +203,21 @@ ApplicationWindow {
             io.read()
             console.log("io.text: " + io.text)
             visualModel.model = JSON.parse(io.text)
-//var taskData2 = JSON.parse('{"result":true, "count":42}')
+
+
+            var data = visualModel.model
+            data[0].headertitle = "test"
+
+            console.log("yyy: " + data[0].headertitle)
+
+            visualModel.model = data
+
+            visualModel.model[0].headertitle = "tttt"
+
 
             console.log(JSON.stringify(visualModel.model, null, 4))
+
+            console.log("visualModel.model[2] :" + visualModel.model[0].headertitle)
 
 
         }

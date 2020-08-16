@@ -99,14 +99,24 @@ Item {
                         anchors.fill: parent
 
                         onDropped: {
-                            taskData.get(taskColumnIndex).tasks.insert(index+1, taskData.get(drag.source.taskColumnIndex).tasks.get(drag.source.taskIndex))
-                            taskData.get(drag.source.taskColumnIndex).tasks.remove(drag.source.taskIndex, 1)
 
-                            console.log("ddd")
+
+                            var tmpData = visualModel.model
+
+                            //taskData.get(taskColumnIndex).tasks.insert(index+1, taskData.get(drag.source.taskColumnIndex).tasks.get(drag.source.taskIndex))
+
+                            tmpData[taskColumnIndex].tasks.splice(index+1, 0,tmpData[drag.source.taskColumnIndex].tasks[drag.source.taskIndex])
+                            tmpData[drag.source.taskColumnIndex].tasks.splice(drag.source.taskIndex, 1)
+
+                            visualModel.model = tmpData
+
+                            console.log("ddd:" + tmpData[0].headertitle)
                             console.log(drag.source.taskColumnIndex)
                             console.log(drag.source.taskIndex)
 
                             console.log("fffffffffffffffffff" + bottomPlaceHolderDropArea)
+
+
                         }
                     }
                 }

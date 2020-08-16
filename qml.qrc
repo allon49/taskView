@@ -9,5 +9,6 @@
         <file>TasksColumn.qml</file>
         <file>TasksColumnContent.qml</file>
         <file>ColumnHeader.qml</file>
+        <file>Data.json</file>
     </qresource>
 </RCC>

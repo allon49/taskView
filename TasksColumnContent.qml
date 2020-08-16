@@ -37,13 +37,9 @@ Item {
 
             anchors.fill: parent
             onClicked: {
-              //  var tmp = Activity.tasks
-              //  tmp[taskColumnRectangleIndex].push("test")  //?
-              //  Activity.tasks = tmp
-
-                taskData.get(taskColumnRectangleIndex).tasks.insert(0, {"description": "task number: 0", /*"taskHovered": true*/ color:"red"})
-
-                console.log("rr")
+                var tmpData = visualModel.model
+                tmpData[taskColumnRectangleIndex].tasks.push({"description": "task number: 0", "color":"red"})
+                visualModel.model = tmpData
             }
         }
     }
@@ -62,7 +58,7 @@ Item {
         Rectangle {
             id: noTaskPlaceHolder
 
-            visible: modelData.tasks.count === 0 ? true : false
+            visible: modelData.tasks.length === 0 ? true : false
             width: parent.width
             height: taskHeight
             color: !bottomPlaceHolderDropArea.containsDrag ? "grey" : "green"
