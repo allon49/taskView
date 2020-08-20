@@ -26,9 +26,7 @@ Item {
 
             anchors.horizontalCenter: parent.horizontalCenter
             anchors.verticalCenter: parent.verticalCenter
-
             text: qsTr("+")
-
             color: "red"
         }
 
@@ -38,7 +36,7 @@ Item {
             anchors.fill: parent
             onClicked: {
                 var tmpData = visualModel.model
-                tmpData[taskColumnRectangleIndex].tasks.push({"description": "task number: 0", "color":"red"})
+                tmpData[taskColumnRectangleIndex].tasks.splice(0,0,{"description": "task number: 0", "color":"red"})
                 visualModel.model = tmpData
             }
         }
@@ -74,13 +72,14 @@ Item {
                 anchors.fill: parent
 
                 onDropped: {
-                    taskData.get(taskColumnRectangleIndex).tasks.insert(0, taskData.get(drag.source.taskColumnIndex).tasks.get(drag.source.taskIndex))
-                    taskData.get(drag.source.taskColumnIndex).tasks.remove(drag.source.taskIndex, 1)
+                    var tmpData = visualModel.model
+                    tmpData[taskColumnRectangleIndex].tasks.splice(index+1, 0,tmpData[drag.source.taskColumnIndex].tasks[drag.source.taskIndex])  //? should taskColumnRectangleIndex be replaced by taskColumnIndex
+                    tmpData[drag.source.taskColumnIndex].tasks.splice(drag.source.taskIndex, 1)
+                    visualModel.model = tmpData
 
                     console.log("ddd")
                     console.log(drag.source.taskColumnIndex)
                     console.log(drag.source.taskIndex)
-
                     console.log("fffffffffffffffffff" + bottomPlaceHolderDropArea)
                 }
             }
@@ -110,7 +109,6 @@ Item {
             id: taskComponent
 
             Task {
-
                 width: parent.width - tasksColumnContentScrollbar.width
 
                 taskColumnIndex: taskColumnRectangleIndex
@@ -148,7 +146,9 @@ Item {
 
             anchors.fill: parent
             onClicked: {
-                taskData.get(taskColumnRectangleIndex).tasks.insert(taskData.get(taskColumnRectangleIndex).tasks.count, {"description": "task number: " + taskData.get(taskColumnRectangleIndex).tasks.count, /*"taskHovered": true*/ color:"red"})
+                var tmpData = visualModel.model
+                tmpData[taskColumnRectangleIndex].tasks.push({"description": "task number: 0", "color":"red"})
+                visualModel.model = tmpData
             }
         }
     }

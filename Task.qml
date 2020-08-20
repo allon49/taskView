@@ -99,15 +99,9 @@ Item {
                         anchors.fill: parent
 
                         onDropped: {
-
-
                             var tmpData = visualModel.model
-
-                            //taskData.get(taskColumnIndex).tasks.insert(index+1, taskData.get(drag.source.taskColumnIndex).tasks.get(drag.source.taskIndex))
-
                             tmpData[taskColumnIndex].tasks.splice(index+1, 0,tmpData[drag.source.taskColumnIndex].tasks[drag.source.taskIndex])
                             tmpData[drag.source.taskColumnIndex].tasks.splice(drag.source.taskIndex, 1)
-
                             visualModel.model = tmpData
 
                             console.log("ddd:" + tmpData[0].headertitle)
@@ -115,8 +109,6 @@ Item {
                             console.log(drag.source.taskIndex)
 
                             console.log("fffffffffffffffffff" + bottomPlaceHolderDropArea)
-
-
                         }
                     }
                 }

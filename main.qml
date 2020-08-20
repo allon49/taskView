@@ -71,55 +71,12 @@ ApplicationWindow {
 
         ListModel {
             id: taskData
-
-//            ListElement {
-
-//                headerTitle: "Header Title 1"
-//                tasks: [
-//                    ListElement {
-//                        title: "Column 1 First task title"
-//                        description: "Column 1 First task description"
-//                        image: "Column 1 First task image"
-//                        color: "red"
-//                    },
-//                    ListElement {
-//                        title: "Column 1 second task title"
-//                        description: "Column 1 second task description"
-//                        image: "Column 1 second task image"
-//                        color: "red"
-//                    }
-//                ]
-//            }
-
-
-//            ListElement {
-
-//                headerTitle: "Header Title 2"
-//                tasks: [
-//                    ListElement {
-//                        title: "Column 2 First task title"
-//                        description: "Column 2 First task description"
-//                        image: "Column 2 First task image"
-//                        color: "red"
-//                    }
-//                ]
-//            }
-
-//            ListElement {
-
-//                headerTitle: "Header Title 3"
-//                tasks: [
-
-//                ]
-//            }
-
         }
 
 
         DelegateModel {
             id: visualModel
 
-            //model: taskData
             delegate: TasksColumn {}
         }
 
@@ -160,8 +117,9 @@ ApplicationWindow {
                 anchors.fill: parent
                 onClicked: {
                     console.log("Insert a new column")
-
-                    taskData.insert(0, {"headerTitle": "Header Title n", "tasks": []})
+                    var data = visualModel.model
+                    data.splice(0,0,{"headertitle": "Header Title n", "tasks": []})
+                    visualModel.model = data
                 }
             }
         }
@@ -204,21 +162,7 @@ ApplicationWindow {
             console.log("io.text: " + io.text)
             visualModel.model = JSON.parse(io.text)
 
-
-            var data = visualModel.model
-            data[0].headertitle = "test"
-
-            console.log("yyy: " + data[0].headertitle)
-
-            visualModel.model = data
-
-            visualModel.model[0].headertitle = "tttt"
-
-
             console.log(JSON.stringify(visualModel.model, null, 4))
-
-            console.log("visualModel.model[2] :" + visualModel.model[0].headertitle)
-
 
         }
 

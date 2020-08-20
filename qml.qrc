@@ -10,5 +10,7 @@
         <file>TasksColumnContent.qml</file>
         <file>ColumnHeader.qml</file>
         <file>Data.json</file>
+        <file>images/ellipsis.svg</file>
+        <file>images/move_icon.svg</file>
     </qresource>
 </RCC>
