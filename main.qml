@@ -1,13 +1,11 @@
-// to do
-// - when dragged from a left column tasks elements are under droparea
-// - create signals to fill datatasks
-// - create optional button to add column. This can be also triggered by a signal
-// - insert placeholder (when no task) within tasks listview in order to avoid shifting it down
-
+// When moving columns their position is not updated in visualModel. Columns take their original positions back when model is used.
+// Placeholder appears under task at beginning of dragging task
+// No task Placeholder shifts vertical listview scrollbar because it is not part of the task listview
+// When dragging left tasks are placed under right task (because of column z order)
 
 import QtQuick 2.12
 import QtQuick.Controls 2.12
-import gcompris_tasks 1.0 //? can not remember what it does
+import gcompris_tasks 1.0
 
 import "tache.js" as Activity
 
