@@ -224,6 +224,11 @@ Component {
                     visualModel.items.move(    //? why do the move does not move parent model?
                             drag.source.indextest,
                             columnHeaderMouseArea.parent.DelegateModel.itemsIndex)
+
+//                    var tmpData = visualModel.model
+//                    tmpData.splice(columnHeaderMouseArea.parent.DelegateModel.itemsIndex, 0, tmpData.splice(drag.source.indextest, 1)[0]);
+//                    visualModel.model = tmpData
+
                 }
             }
         }
