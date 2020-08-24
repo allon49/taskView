@@ -22,9 +22,9 @@ Item {
         anchors.fill: parent
         width: parent.width
 
+
         MouseArea {
             id: mouseArea
-
 
             anchors.fill: parent
             drag.target: taskColumn
@@ -48,7 +48,7 @@ Item {
                 taskColumnIndex: taskItem.taskColumnIndex
                 taskIndex: taskItem.taskIndex
 
-                height: implicitHeight
+                //height: implicitHeight
                 width: parent.width
 
                 spacing: 10
@@ -58,15 +58,14 @@ Item {
                 Drag.hotSpot.y: 32
 
                 Rectangle {
-                    id: dropRectangle
+                    id: taskRectangle
 
                     width: parent.width
-                    height: taskHeight
+                    height: taskContent.computedTaskHeight
                     color: taskItem.defaultColor
 
-                    Text {
-                        anchors.fill: parent
-                        text: taskDescription
+                    TaskContent {
+                        id: taskContent
                     }
 
                     states: State {

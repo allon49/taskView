@@ -13,5 +13,6 @@
         <file>images/ellipsis.svg</file>
         <file>images/move_icon.svg</file>
         <file>TaskBoard.qml</file>
+        <file>TaskContent.qml</file>
     </qresource>
 </RCC>

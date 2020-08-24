@@ -2,6 +2,11 @@
 // Placeholder appears under task at beginning of dragging task
 // No task Placeholder shifts vertical listview scrollbar because it is not part of the task listview
 // When dragging left tasks are placed under right task (because of column z order)
+// To move the task columns we need to have a move icon as I do not manage to sue propagate properly to be able to move when pressed and to focus on textedit when double click
+
+// drop problem when size of the task is changed by adding text
+
+
 
 import QtQuick 2.12
 import QtQuick.Controls 2.12
