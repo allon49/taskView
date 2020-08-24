@@ -12,5 +12,6 @@
         <file>Data.json</file>
         <file>images/ellipsis.svg</file>
         <file>images/move_icon.svg</file>
+        <file>TaskBoard.qml</file>
     </qresource>
 </RCC>

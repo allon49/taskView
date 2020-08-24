@@ -5,13 +5,9 @@
 // - insert placeholder (when no task) within tasks listview in order to avoid shifting it down
 
 
-
 import QtQuick 2.12
 import QtQuick.Controls 2.12
-import QtQml.Models 2.1
-import QtQuick.Dialogs 1.3
-
-import gcompris_tasks 1.0
+import gcompris_tasks 1.0 //? can not remember what it does
 
 import "tache.js" as Activity
 
@@ -22,11 +18,8 @@ ApplicationWindow {
     width: 1000
     height: 1000
     
-    
     property int taskWidth: 300
     property int taskHeight: 100
-
-
 
     function app()
     {
@@ -34,12 +27,10 @@ ApplicationWindow {
     }
 
 
-
     // Add here the QML items you need to access in javascript
     QtObject {
         id: items
     }
-
 
     Component.onCompleted: {
         Activity.start(items)
@@ -47,168 +38,88 @@ ApplicationWindow {
     }
 
 
-    ListElement {
-        id: taskElement
+    TaskBoard {
+        id: taskBoard
 
-        property var color
-        property var image
-        property var description
-        property var title
-
-        title: "New column First task title"
-        description: "First task description"
-        image: "First task image"
-        color: "red"
+        anchors.top: parent.top
+        anchors.left: parent.left
+        width: parent.width - actionBar.width
     }
-
-
 
     Rectangle {
-        id: root
+        id: actionBar
 
-        width: parent.width
+        anchors.top: parent.top
+        anchors.right: parent.right
+        width: 250
         height: parent.height
+        color: "darkblue"
 
-        ListModel {
-            id: taskData
-        }
+        Column {
 
+            anchors.fill: parent
+            spacing: 2
 
-        DelegateModel {
-            id: visualModel
+            Button {
+                id: loadTaskDataFromFile
 
-            delegate: TasksColumn {}
-        }
+                width: parent.width
+                text: qsTr("Loading task data file")
+                onClicked: applicationWindow.readDocument()
+            }
+            Button {
+                id: addNewColumnRectangle
 
-        ListView {
-            id: tasksColumns
-
-            anchors.left: parent.left
-            anchors.top: parent.top
-            width: parent.width
-            height: parent.height
-            spacing: 4
-            cacheBuffer: 50
-            model: visualModel
-            orientation: ListView.Horizontal
-
-            ScrollBar.horizontal: ScrollBar {
-                id: tasksColumnsScrollbar
-                policy: ScrollBar.AlwaysOn
-                height: 30
+                width: parent.width
+                text: qsTr("Click here to add a new column")
+                onClicked: taskBoard.addNewColumn()
             }
         }
-
-        ColumnHeader {
-            id: headerAddNewColumn
-
-            anchors.top: parent.top
-            anchors.right: root.right
-
-            width: taskWidth
-            height: 50
-
-            text: qsTr("Click here to add a new column")
-            color: "lightgreen"
-
-            MouseArea {
-                id: headerAddNewColumnMouseArea
-
-                anchors.fill: parent
-                onClicked: {
-                    console.log("Insert a new column")
-                    var data = visualModel.model
-                    data.splice(0,0,{"headertitle": "Header Title n", "tasks": []})
-                    visualModel.model = data
-                }
-            }
-        }
+    }
 
 
-        ColumnHeader {
-            id: loadTaskData
+    function readDocument() {
+        io.source = "Data.qml"
 
-            anchors.top: headerAddNewColumn.bottom
-            anchors.right: root.right
+        console.log("io.source: " + io.source)
 
-            anchors.topMargin : 5
+        io.read()
+        console.log("io.text: " + io.text)
+        taskBoard.taskBoardData = JSON.parse(io.text)
 
-            width: taskWidth
-            height: 50
-
-            text: qsTr("Loading task data file")
-            color: "lightgreen"
-
-            MouseArea {
-                id: loadTaskDataMouseArea
-
-                anchors.fill: parent
-                onClicked: {
-                    console.log("Open task file")
-
-                    root.readDocument()
-
-                }
-            }
-        }
-
-        function readDocument() {
-            //io.source = "/home/charruau/Development/taskView/Data.qml"
-            io.source = "Data.qml"
-
-            console.log("io.source: " + io.source)
-
-            io.read()
-            console.log("io.text: " + io.text)
-            visualModel.model = JSON.parse(io.text)
-
-            console.log(JSON.stringify(visualModel.model, null, 4))
-
-        }
-
-        function saveDocument() {
-            var data = taskData
-
-            //console.log("data: " + data)
-            //io.source = "/home/home/charruau/test.json"
-          //  io.text = JSON.stringify(data, null, 4)
-            console.log("--")
-            console.log(JSON.stringify(data))
-
-            var datamodel = []
-            for (var i = 0; i < taskData.count; ++i)
-            {
-                datamodel.push(taskData.get(i))
-                console.log(taskData.get(i))
-                console.log("--")
-                console.log(taskData.get(i).count)
-            }
-
-
-            console.log(JSON.stringify(datamodel))
-
-
-
-
-
-
-            //io.write()
-        }
-
-//        FileDialog {
-//            id: openDialog
-//            onAccepted: {
-//                root.saveDocument()
-//            }
-//        }
-
-        FileIO {
-            id: io
-        }
-
-
+        console.log(JSON.stringify(taskBoard.taskBoardData, null, 4))
 
     }
+
+//    function saveDocument() {
+//        var data = taskData
+
+//        //console.log("data: " + data)
+//        //io.source = "/home/home/charruau/test.json"
+//      //  io.text = JSON.stringify(data, null, 4)
+//        console.log("--")
+//        console.log(JSON.stringify(data))
+
+//        var datamodel = []
+//        for (var i = 0; i < taskData.count; ++i)
+//        {
+//            datamodel.push(taskData.get(i))
+//            console.log(taskData.get(i))
+//            console.log("--")
+//            console.log(taskData.get(i).count)
+//        }
+
+
+//        console.log(JSON.stringify(datamodel))
+
+//        //io.write()
+//    }
+
+
+    FileIO {
+        id: io
+    }
+
 }
 
 

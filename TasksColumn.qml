@@ -9,7 +9,7 @@ Component {
 
         width: 200
 
-        height: root.height - tasksColumnsScrollbar.height
+        height: taskBoard.height - tasksColumnsScrollbar.height
         color: "lightgreen"
 
         property var componentIndex: DelegateModel.itemsIndex
@@ -65,7 +65,7 @@ Component {
                 states: State {
                     when: headerMoveIconMouseArea.headerMoveIconMouseAreaHeld
 
-                    ParentChange { target: content; parent: root }
+                    ParentChange { target: content; parent: taskBoard }
                     AnchorChanges {
                         target: content
                         anchors { horizontalCenter: undefined; verticalCenter: undefined }
@@ -228,7 +228,6 @@ Component {
 //                    var tmpData = visualModel.model
 //                    tmpData.splice(columnHeaderMouseArea.parent.DelegateModel.itemsIndex, 0, tmpData.splice(drag.source.indextest, 1)[0]);
 //                    visualModel.model = tmpData
-
                 }
             }
         }
@@ -246,7 +245,7 @@ Component {
             states: State {
                 when: headerMoveIconMouseArea.headerMoveIconMouseAreaHeld
 
-                ParentChange { target: tasksColumnContent; parent: root; x: content.x }
+                ParentChange { target: tasksColumnContent; parent: taskBoard; x: content.x }
                 AnchorChanges {
                     target: tasksColumnContent
                     anchors { horizontalCenter: undefined; verticalCenter: undefined }
