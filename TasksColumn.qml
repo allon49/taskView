@@ -7,7 +7,6 @@ Component {
     Rectangle {
         id: tasksColumn
 
-
         width: 200
 
         height: root.height - tasksColumnsScrollbar.height
@@ -18,22 +17,19 @@ Component {
         MouseArea {
             id: columnHeaderMouseArea
 
-            property bool held: false
-
+            property bool columnHeaderMouseAreaHeld: false
             anchors { left: parent.left; right: parent.right }
             height: content.height   //?change content to header something
 
-            drag.target: held ? content : undefined
+            drag.target: columnHeaderMouseAreaHeld ? content : undefined
             drag.axis: Drag.XAxis
 
             onPressed: {
-
-                held = true
+                columnHeaderMouseAreaHeld = true
                 console.log("press")
             }
 
-
-            onReleased: held = false
+            onReleased: columnHeaderMouseAreaHeld = false
 
             onClicked: console.log("clicked yellow")
 
@@ -55,25 +51,19 @@ Component {
                 border.width: 1
                 border.color: "lightsteelblue"
 
-                color: columnHeaderMouseArea.held ? "lightsteelblue" : "white"
+                color: columnHeaderMouseArea.columnHeaderMouseAreaHeld ? "lightsteelblue" : "white"
                 Behavior on color { ColorAnimation { duration: 100 } }
 
                 radius: 2
 
-//                Drag.active: columnHeaderMouseArea.held
-//                Drag.source: columnHeaderMouseArea
-
-                Drag.active: headerMoveMouseArea.held2
-                Drag.source: headerMoveMouseArea
-
+                Drag.active: headerMoveIconMouseArea.headerMoveIconMouseAreaHeld
+                Drag.source: headerMoveIconMouseArea
 
                 Drag.hotSpot.x: width / 2
                 Drag.hotSpot.y: height / 2
 
                 states: State {
-                    //when: columnHeaderMouseArea.held
-                    when: headerMoveMouseArea.held2
-
+                    when: headerMoveIconMouseArea.headerMoveIconMouseAreaHeld
 
                     ParentChange { target: content; parent: root }
                     AnchorChanges {
@@ -92,15 +82,12 @@ Component {
                         width: parent.width
                         height: headerTitleTextEdit.implicitHeight + 4
 
-
                         Rectangle {
-                            id: headerMoveRectangle
+                            id: headerMoveIconRectangle
 
                             anchors.top: parent.top
                             anchors.right: parent.right
                             anchors.margins: 2
-
-
                             width: columnHeaderRect.width / 10
                             height: width
 
@@ -109,48 +96,34 @@ Component {
                             Image {
                                 anchors.fill: parent
                                 anchors.margins: 2
-
                                 source: "images/move_icon.svg"
                             }
 
                             MouseArea {
-                                id: headerMoveMouseArea
+                                id: headerMoveIconMouseArea
 
                                 property var indextest: componentIndex
-
-                                property bool held2: false
-
+                                property bool headerMoveIconMouseAreaHeld: false
                                 anchors.fill: parent
-
-                                drag.target: held2 ? content : undefined
+                                drag.target: headerMoveIconMouseAreaHeld ? content : undefined
                                 drag.axis: Drag.XAxis
-
-
                                 onPressed: {
-
-                                    held2 = true
+                                    headerMoveIconMouseAreaHeld = true
                                     console.log("component index: " + componentIndex)
-
                                 }
-
-
-                                 onReleased: held2 = false
-
+                                 onReleased: headerMoveIconMouseAreaHeld = false
                             }
                         }
 
 
                         Rectangle {
-                            id: headerOptionRectangle
+                            id: headerOptionIconRectangle
 
                             anchors.top: parent.top
-                            anchors.right: headerMoveRectangle.left
+                            anchors.right: headerMoveIconRectangle.left
                             anchors.margins: 2
-
-
                             width: columnHeaderRect.width / 10
                             height: width
-
                             color: "blue"
 
                             Image {
@@ -161,9 +134,7 @@ Component {
                             }
 
                             MouseArea {
-
                                 anchors.fill: parent
-
 
                                 Menu {
                                     id: contextMenu
@@ -216,7 +187,6 @@ Component {
                                     }
                                 }
 
-
                                 onPressed: {
                                     parent.color = "green"
                                     contextMenu.popup()
@@ -231,13 +201,9 @@ Component {
                         TextEdit {
                             id: headerTitleTextEdit
 
-                         //   readOnly: true
-                           // activeFocusOnPress: false
-
-
                             anchors.left: columnHeaderRect.left
                             anchors.top: columnHeaderRect.top
-                            width: columnHeaderRect.width - headerOptionRectangle.width
+                            width: columnHeaderRect.width - headerOptionIconRectangle.width - headerMoveIconRectangle.width
                             wrapMode: TextEdit.Wrap
                             font.pointSize: 12
                             text: modelData.headertitle
@@ -273,14 +239,13 @@ Component {
             height: parent.height - columnHeaderMouseArea.height
 
             states: State {
-                when: columnHeaderMouseArea.held
+                when: headerMoveIconMouseArea.headerMoveIconMouseAreaHeld
 
                 ParentChange { target: tasksColumnContent; parent: root; x: content.x }
                 AnchorChanges {
                     target: tasksColumnContent
                     anchors { horizontalCenter: undefined; verticalCenter: undefined }
                 }
-
             }
         }
     }
