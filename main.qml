@@ -18,7 +18,7 @@ ApplicationWindow {
     width: 1000
     height: 1000
     
-    property int taskWidth: 300
+    property int taskWidth: 200
     property int taskHeight: 100
 
     function app()
