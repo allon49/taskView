@@ -35,13 +35,13 @@
             },
             {
                 "title": "Column 2 Second task title",
-                "description": "Column 1 Second task description",
+                "description": "Column 2 Second task description",
                 "image": "Column 2 First task image",
                 "color": "red"
             },
             {
                 "title": "Column 2 Third task title",
-                "description": "Column 1 Third task description",
+                "description": "Column 2 Third task description",
                 "image": "Column 2 First task image",
                 "color": "red"
             }

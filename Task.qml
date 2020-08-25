@@ -6,13 +6,12 @@ import "tache.js" as Activity
 Item {
     id: taskItem
 
-    property bool taskHovered: false
     property string defaultColor : "red"
     property string hoveredColor : "grey"
     property int taskColumnIndex
     property int taskIndex
-
-    property string taskDescription : ""
+    property string taskDescription
+    property string taskTitle
 
     width: parent.width
     height: taskColumn.height
@@ -47,12 +46,8 @@ Item {
 
                 taskColumnIndex: taskItem.taskColumnIndex
                 taskIndex: taskItem.taskIndex
-
-                //height: implicitHeight
                 width: parent.width
-
                 spacing: 10
-
                 Drag.active: mouseArea.drag.active
                 Drag.hotSpot.x: 32
                 Drag.hotSpot.y: 32
@@ -66,6 +61,9 @@ Item {
 
                     TaskContent {
                         id: taskContent
+
+                        taskDescription: taskItem.taskDescription
+                        taskTitle: taskItem.taskTitle
                     }
 
                     states: State {

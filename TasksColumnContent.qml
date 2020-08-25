@@ -86,7 +86,6 @@ Item {
         }
 
 
-
         //listView displaying all the tasks contained in each Activity.tasks array level
         ListView {
             id: tasksListView
@@ -113,8 +112,8 @@ Item {
 
                 taskColumnIndex: taskColumnRectangleIndex
                 taskIndex: index
+                taskTitle: modelData.title
                 taskDescription: modelData.description
-                taskHovered: taskHovered
                 defaultColor: modelData.color
             }
         }

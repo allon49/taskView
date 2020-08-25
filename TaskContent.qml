@@ -1,10 +1,15 @@
 import QtQuick 2.12
 
 
+
+
 Column {
     id: taskContentColumn
 
     property var computedTaskHeight: actionsRectangle.height + taskTitleTextEdit.height + taskDescriptionTextEdit.height + 15   //? why +15 no idea :( but otherwise the taskDescriptionTextEdit is not taken into account
+
+    property string taskDescription
+    property string taskTitle
 
     width: parent.width
     spacing: 4
@@ -73,7 +78,7 @@ Column {
         width: parent.width
         wrapMode: TextEdit.Wrap
         font.pointSize: 10
-        text: visualModel.model[taskColumnIndex].tasks[taskIndex].title  //?  QQmlDelegateModel::model qrc:/TaskContent.qml:76: TypeError: Value is undefined and could not be converted to an object //maybe using modeldata
+        text: taskTitle
 
         onEditingFinished : {
             console.log("taskTitleTextEdit.text: " + taskTitleTextEdit.text)
@@ -89,9 +94,9 @@ Column {
         id: taskDescriptionTextEdit
 
         width: parent.width
-        text: visualModel.model[taskColumnIndex].tasks[taskIndex].description  //?  QQmlDelegateModel::model qrc:/TaskContent.qml:76: TypeError: Value is undefined and could not be converted to an object // ? modelData?
-        selectionColor: "#e75858"
-        font.pixelSize: 8
+        wrapMode: TextEdit.Wrap
+        font.pointSize: 9
+        text: taskDescription
 
         onEditingFinished : {
             var tmpData = visualModel.model
