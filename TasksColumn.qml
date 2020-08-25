@@ -13,6 +13,7 @@ Component {
         color: "lightgreen"
 
         property var componentIndex: DelegateModel.itemsIndex
+        property var taskOriginIndex
 
         MouseArea {
             id: columnHeaderMouseArea
@@ -29,7 +30,12 @@ Component {
                 console.log("press")
             }
 
-            onReleased: columnHeaderMouseAreaHeld = false
+            onReleased: {
+                columnHeaderMouseAreaHeld = false
+            }
+
+
+
 
             onClicked: console.log("clicked yellow")
 
@@ -102,16 +108,31 @@ Component {
                             MouseArea {
                                 id: headerMoveIconMouseArea
 
-                                property var indextest: componentIndex
+                                property var index: componentIndex
                                 property bool headerMoveIconMouseAreaHeld: false
                                 anchors.fill: parent
                                 drag.target: headerMoveIconMouseAreaHeld ? content : undefined
                                 drag.axis: Drag.XAxis
+
+
                                 onPressed: {
                                     headerMoveIconMouseAreaHeld = true
                                     console.log("component index: " + componentIndex)
+                                    console.log("click origin index: " + index)
+                                    tasksColumn.taskOriginIndex = componentIndex
                                 }
-                                 onReleased: headerMoveIconMouseAreaHeld = false
+
+                                onReleased: {
+                                    headerMoveIconMouseAreaHeld = false
+
+                                    console.log("index: " + index + " " + tasksColumn.taskOriginIndex)
+
+                                    var tmpData = visualModel.model
+                                    tmpData.splice(index, 0, tmpData.splice(tasksColumn.taskOriginIndex, 1)[0]);
+                                    visualModel.model = tmpData
+                                    console.log("release move")
+                                }
+
                             }
                         }
 
@@ -218,16 +239,12 @@ Component {
                 anchors { fill:parent; margins: 10 }
 
                 onEntered: {
-                    console.log("drag.source.parent.DelegateModel.itemsIndex " + drag.source.indextest)
+                    console.log("drag.source.parent.DelegateModel.itemsIndex " + drag.source.index)
                     console.log("columnHeaderMouseArea.parent.DelegateModel.itemsIndex " + columnHeaderMouseArea.parent.DelegateModel.itemsIndex)
 
                     visualModel.items.move(    //? why do the move does not move parent model?
-                            drag.source.indextest,
+                            drag.source.index,
                             columnHeaderMouseArea.parent.DelegateModel.itemsIndex)
-
-//                    var tmpData = visualModel.model
-//                    tmpData.splice(columnHeaderMouseArea.parent.DelegateModel.itemsIndex, 0, tmpData.splice(drag.source.indextest, 1)[0]);
-//                    visualModel.model = tmpData
                 }
             }
         }

@@ -36,7 +36,7 @@ Item {
             anchors.fill: parent
             onClicked: {
                 var tmpData = visualModel.model
-                tmpData[taskColumnRectangleIndex].tasks.splice(0,0,{"description": "task number: 0", "color":"red"})
+                tmpData[taskColumnRectangleIndex].tasks.splice(0,0,{"description": "task number: 0", "color":"red", "title": "Task title"})
                 visualModel.model = tmpData
             }
         }
@@ -146,7 +146,7 @@ Item {
             anchors.fill: parent
             onClicked: {
                 var tmpData = visualModel.model
-                tmpData[taskColumnRectangleIndex].tasks.push({"description": "task number: 0", "color":"red"})
+                tmpData[taskColumnRectangleIndex].tasks.push({"description": "task number: 0", "color":"red", "title": "Task title"})
                 visualModel.model = tmpData
             }
         }
