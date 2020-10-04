@@ -21,6 +21,11 @@ Item {
         anchors.fill: parent
         width: parent.width
 
+        onContainsDragChanged: {
+            console.log("taskItemDropArea" + taskItemDropArea + " TaskSource" + taskItemDropArea.drag.source + "Mousearea " + mouseArea)
+
+        }
+
 
         MouseArea {
             id: mouseArea
@@ -84,7 +89,7 @@ Item {
                 Rectangle {
                     id: bottomPlaceHolder
 
-                    visible: taskItemDropArea.containsDrag
+                    visible: taskItemDropArea.containsDrag && (taskItemDropArea.drag.source !== taskColumn)
                     width: parent.width
                     height: taskHeight
                     color: !bottomPlaceHolderDropArea.containsDrag ? "grey" : "green"
@@ -109,7 +114,7 @@ Item {
                             console.log(drag.source.taskColumnIndex)
                             console.log(drag.source.taskIndex)
 
-                            console.log("fffffffffffffffffff" + bottomPlaceHolderDropArea)
+
                         }
                     }
                 }
