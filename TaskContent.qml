@@ -52,6 +52,13 @@ Column {
                 text: qsTr("Remove")
                 font.pixelSize: 12
             }
+
+            onClicked: {
+                var tmpData = visualModel.model
+                tmpData[taskColumnIndex].tasks.splice(taskIndex,1)
+                visualModel.model = tmpData
+            }
+
         }
 
         MouseArea {
@@ -80,6 +87,8 @@ Column {
         font.pointSize: 10
         text: taskTitle
 
+
+
         onEditingFinished : {
             console.log("taskTitleTextEdit.text: " + taskTitleTextEdit.text)
 
@@ -97,6 +106,13 @@ Column {
         wrapMode: TextEdit.Wrap
         font.pointSize: 9
         text: taskDescription
+
+        MouseArea {
+             anchors.fill: parent
+             onClicked: taskDescriptionTextEdit.forceActiveFocus(Qt.MouseFocusReason)
+             propagateComposedEvents: true
+             visible: !taskDescriptionTextEdit.focus
+         }
 
         onEditingFinished : {
             var tmpData = visualModel.model
