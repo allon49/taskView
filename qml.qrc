@@ -3,8 +3,6 @@
         <file>main.qml</file>
         <file>qtquickcontrols2.conf</file>
         <file>tache.js</file>
-        <file>Tache.qml</file>
-        <file>TacheForm.ui.qml</file>
         <file>Task.qml</file>
         <file>TasksColumn.qml</file>
         <file>TasksColumnContent.qml</file>
