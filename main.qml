@@ -8,7 +8,7 @@
 import QtQuick 2.12
 import QtQuick.Controls 2.12
 import gcompris_tasks 1.0
-
+import QtQuick.Dialogs 1.3
 import "tache.js" as Activity
 
 
@@ -26,6 +26,17 @@ ApplicationWindow {
         return   applicationWindow;
     }
 
+    FileDialog {
+        id: fileDialog
+        title: "Please choose a file"
+        folder: shortcuts.home
+        nameFilters: ["*.json"]
+        selectMultiple: false
+        onAccepted: {
+            applicationWindow.readDocument(fileDialog.fileUrl)
+        }
+
+    }
 
     // Add here the QML items you need to access in javascript
     QtObject {
@@ -65,7 +76,7 @@ ApplicationWindow {
 
                 width: parent.width
                 text: qsTr("Loading task data file")
-                onClicked: applicationWindow.readDocument()
+                onClicked: fileDialog.open()
             }
             Button {
                 id: addNewColumnRectangle
@@ -78,8 +89,8 @@ ApplicationWindow {
     }
 
 
-    function readDocument() {
-        io.source = "Data.qml"
+    function readDocument(url) {
+        io.source = url
 
         console.log("io.source: " + io.source)
 

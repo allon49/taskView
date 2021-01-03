@@ -17,7 +17,7 @@ void FileIO::read()
         return;
     }
     //QFile file(m_source.toLocalFile());
-    QFile file("/home/charruau/Development/taskView/Data.json");
+    QFile file(m_source.toLocalFile());
     if(!file.exists()) {
         qWarning() << "Does not exits: " << m_source.toLocalFile();
         return;
