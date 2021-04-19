@@ -9,6 +9,10 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
+    app.setOrganizationName("Some Company");
+    app.setOrganizationDomain("somecompany.com");
+    app.setApplicationName("Amazing Application");
+
     QQmlApplicationEngine engine;
 
     qmlRegisterType<FileIO>("gcompris_tasks", 1, 0, "FileIO");

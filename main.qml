@@ -23,7 +23,7 @@ ApplicationWindow {
 
     function app()
     {
-        return   applicationWindow;
+        return applicationWindow;
     }
 
     FileDialog {
@@ -46,6 +46,7 @@ ApplicationWindow {
     Component.onCompleted: {
         Activity.start(items)
         Activity.init()
+        applicationWindow.readDocument("qrc:/Data.json")
     }
 
 
