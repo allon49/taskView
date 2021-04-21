@@ -17,9 +17,11 @@ ApplicationWindow {
     visible: true
     width: 1000
     height: 1000
+
     
     property int taskWidth: 200
     property int taskHeight: 100
+    property url defaultJsonFile: ":/Data.json"
 
     function app()
     {
@@ -44,9 +46,17 @@ ApplicationWindow {
     }
 
     Component.onCompleted: {
+
+
+
         Activity.start(items)
         Activity.init()
-        applicationWindow.readDocument("qrc:/Data.json")
+
+
+
+
+
+        applicationWindow.readDocument(":/Data.json")
     }
 
 
@@ -94,6 +104,8 @@ ApplicationWindow {
         io.source = url
 
         console.log("io.source: " + io.source)
+
+
 
         io.read()
         console.log("io.text: " + io.text)

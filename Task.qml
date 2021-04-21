@@ -45,6 +45,11 @@ Item {
                 taskColumn.y = 0
             }
 
+            onClicked: {
+                console.log("child clicked")
+            }
+
+
             Column {
                 id: taskColumn
 

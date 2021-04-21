@@ -36,7 +36,7 @@ Column {
                 id: editTextSymbol
                 text: qsTr("Edit")
                 font.pixelSize: 12
-            }
+            }    
         }
 
         MouseArea {
@@ -87,7 +87,14 @@ Column {
         font.pointSize: 10
         text: taskTitle
 
-
+        MouseArea {
+                anchors.fill: parent
+                propagateComposedEvents: true
+                onClicked: {
+                    console.log("clicked blue")
+                    mouse.accepted = false
+                }
+        }
 
         onEditingFinished : {
             console.log("taskTitleTextEdit.text: " + taskTitleTextEdit.text)
