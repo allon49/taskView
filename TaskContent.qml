@@ -86,14 +86,17 @@ Column {
         wrapMode: TextEdit.Wrap
         font.pointSize: 10
         text: taskTitle
+        activeFocusOnPress: false
 
         MouseArea {
                 anchors.fill: parent
-                propagateComposedEvents: true
+                //propagateComposedEvents: true
                 onClicked: {
                     console.log("clicked blue")
                     mouse.accepted = false
                 }
+
+                drag.target: taskColumn
         }
 
         onEditingFinished : {
@@ -114,10 +117,11 @@ Column {
         font.pointSize: 9
         text: taskDescription
 
+
         MouseArea {
              anchors.fill: parent
              onClicked: taskDescriptionTextEdit.forceActiveFocus(Qt.MouseFocusReason)
-             propagateComposedEvents: true
+             //propagateComposedEvents: true
              visible: !taskDescriptionTextEdit.focus
          }
 

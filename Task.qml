@@ -34,7 +34,7 @@ Item {
             drag.target: taskColumn
             width: parent.width
 
-            propagateComposedEvents: true
+           // propagateComposedEvents: true
 
             onReleased: {
                 parent = taskColumn.Drag.target !== null ? taskColumn.Drag.target : taskItem
@@ -52,6 +52,8 @@ Item {
 
             Column {
                 id: taskColumn
+
+                property alias taskColumn: taskColumn
 
                 property int taskColumnIndex
                 property int taskIndex
