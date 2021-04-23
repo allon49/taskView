@@ -6,7 +6,9 @@ import QtQuick 2.12
 Column {
     id: taskContentColumn
 
-    property var computedTaskHeight: actionsRectangle.height + taskTitleTextEdit.height + taskDescriptionTextEdit.height + 15   //? why +15 no idea :( but otherwise the taskDescriptionTextEdit is not taken into account
+//    property var computedTaskHeight: actionsRectangle.height + taskTitleTextEdit.height + taskDescriptionTextEdit.height + 15   //? why +15 no idea :( but otherwise the taskDescriptionTextEdit is not taken into account
+    property var computedTaskHeight: actionsRectangle.height + dummyTextEdit.height + taskDescriptionTextEdit.height + 15   //? why +15 no idea :( but otherwise the taskDescriptionTextEdit is not taken into account
+
 
     property string taskDescription
     property string taskTitle
@@ -79,35 +81,51 @@ Column {
         }
     }
 
-    TextEdit {
-        id: taskTitleTextEdit
+
+    Rectangle {
+        id: dummyTextEdit
 
         width: parent.width
-        wrapMode: TextEdit.Wrap
-        font.pointSize: 10
-        text: taskTitle
-        activeFocusOnPress: false
+        height: 30
+        color: "green"
 
-        MouseArea {
-                anchors.fill: parent
-                //propagateComposedEvents: true
-                onClicked: {
-                    console.log("clicked blue")
-                    mouse.accepted = false
-                }
 
-                drag.target: taskColumn
-        }
 
-        onEditingFinished : {
-            console.log("taskTitleTextEdit.text: " + taskTitleTextEdit.text)
 
-            var tmpData = visualModel.model
-            console.log("tmpData[taskColumnIndex].tasks[taskIndex].title: " + tmpData[taskColumnIndex].tasks[taskIndex].title)
-            tmpData[taskColumnIndex].tasks[taskIndex].title = taskTitleTextEdit.text
-            visualModel.model = tmpData
-        }
+
     }
+
+//    TextEdit {
+//        id: taskTitleTextEdit
+
+//        width: parent.width
+//        wrapMode: TextEdit.Wrap
+//        font.pointSize: 10
+//        text: taskTitle
+//        activeFocusOnPress: false
+
+
+
+////        MouseArea {
+////                anchors.fill: parent
+////                //propagateComposedEvents: true
+////                onClicked: {
+////                    console.log("clicked blue")
+////                    mouse.accepted = false
+////                }
+
+////                drag.target: taskColumn
+////        }
+
+//        onEditingFinished : {
+//            console.log("taskTitleTextEdit.text: " + taskTitleTextEdit.text)
+
+//            var tmpData = visualModel.model
+//            console.log("tmpData[taskColumnIndex].tasks[taskIndex].title: " + tmpData[taskColumnIndex].tasks[taskIndex].title)
+//            tmpData[taskColumnIndex].tasks[taskIndex].title = taskTitleTextEdit.text
+//            visualModel.model = tmpData
+//        }
+//    }
 
     TextEdit {
         id: taskDescriptionTextEdit
@@ -117,13 +135,14 @@ Column {
         font.pointSize: 9
         text: taskDescription
 
+        activeFocusOnPress: false
 
-        MouseArea {
-             anchors.fill: parent
-             onClicked: taskDescriptionTextEdit.forceActiveFocus(Qt.MouseFocusReason)
-             //propagateComposedEvents: true
-             visible: !taskDescriptionTextEdit.focus
-         }
+//        MouseArea {
+//             anchors.fill: parent
+//             onClicked: taskDescriptionTextEdit.forceActiveFocus(Qt.MouseFocusReason)
+//             //propagateComposedEvents: true
+//             visible: !taskDescriptionTextEdit.focus
+//         }
 
         onEditingFinished : {
             var tmpData = visualModel.model
