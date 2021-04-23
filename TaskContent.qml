@@ -82,14 +82,57 @@ Column {
     }
 
 
-    Rectangle {
-        id: dummyTextEdit
 
+    Item {
         width: parent.width
         height: 30
-        color: "green"
+
+        Row {
+            anchors.fill: parent
+            Rectangle {
+                id: textEditRectangle
+
+                width: parent.width * 2/3
+                height: parent.height
+                color: "red"
+
+                TextEdit {
+                    id: dummyTextEdit
+
+                    anchors.fill: parent
+                    color: "green"
+                    enabled: false
+                    text: "test"
+
+                    onEditingFinished: {
+                        dummyTextEdit.enabled = false
+                        textEditRectangle.color = "red"
+
+                    }
+                }
+            }
 
 
+
+
+            Rectangle {
+
+                width: parent.width * 1/3
+                height: parent.height
+                color: "green"
+                MouseArea {
+
+                    anchors.fill: parent
+
+                    onDoubleClicked: {
+                        console.log("clicked blue")
+                        dummyTextEdit.enabled = true
+                        textEditRectangle.color = "yellow"
+                    }
+                }
+            }
+
+        }
 
 
 

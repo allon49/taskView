@@ -36,6 +36,8 @@ Item {
 
            // propagateComposedEvents: true
 
+
+
             onReleased: {
                 parent = taskColumn.Drag.target !== null ? taskColumn.Drag.target : taskItem
                 console.log("id of the item to drag: " + taskColumn.Drag.target)
@@ -47,6 +49,7 @@ Item {
 
             onClicked: {
                 console.log("child clicked")
+                forceActiveFocus()
             }
 
 
